@@ -1,0 +1,75 @@
+{
+  "title": "เลือกทิศทาง UniGrade",
+  "question": "หน้าตาใหม่ควรช่วยให้ดูคะแนนและไปยังวิชาถัดไปอย่างไร? เลือกทิศทางหรือให้ผมทำแบบที่เสนอไว้",
+  "options": [
+    {
+      "id": "assigned",
+      "kind": "assigned",
+      "label": "Campus Index",
+      "kicker": "THE ROLL",
+      "lineage": "ระบบป้ายและการจัดหมวดหมู่ในห้องสมุดมหาวิทยาลัย",
+      "thesis": "แต่ละวิชาหาเจอเร็วเหมือนชั้นหนังสือที่จัดไว้อย่างมีเหตุผล",
+      "palette": ["#102b3d", "#0f746a", "#f0bc48", "#f7f5ec"],
+      "materials": ["สีหมวดหมู่ที่ใช้งานจริง", "เส้นแบ่งและตัวเลขที่อ่านง่าย"],
+      "viewport": "แถบเมนูที่คุ้นเคย ด้านบนเป็นสถานะเทอม กลางหน้าเป็นรายวิชาที่ต้องติดตาม และกำหนดส่งอยู่ด้านข้าง",
+      "risk": "ต้องควบคุมสีหมวดหมู่ให้เป็นข้อมูล ไม่กลายเป็นของตกแต่ง",
+      "raised": [
+        {"from":"japanese-high-density-web","raise":"เพิ่มความหนาแน่นของข้อมูลในหน้าแรกโดยไม่ลดขนาดตัวอักษร"},
+        {"from":"rw-manual-acetate-tab-board","raise":"ให้สีแต่ละพื้นที่มีหน้าที่ชัดเจนและต่อเนื่องทั้งเว็บ"}
+      ],
+      "html": ".impeccable/mocks/decision/assigned.html",
+      "comp": ".impeccable/mocks/decision/assigned.webp"
+    },
+    {
+      "id": "pick",
+      "kind": "pick",
+      "label": "Course Handbook",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "คู่มือรายวิชาที่นักศึกษาเปิดเทียบตารางเรียน",
+      "thesis": "ภาพรวมเหมือนสารบัญที่พาไปวิชาที่ต้องลงมือทำทันที",
+      "palette": ["#19334b", "#f5f2e9", "#236eaa", "#d48c37"],
+      "materials": ["สารบัญที่เป็นระบบ", "ตัวเลขตารางเรียน"],
+      "viewport": "หัวเรื่องเทอม ตามด้วยรายวิชาแบบแถวที่สแกนเร็ว ข้างกันเป็นแนวโน้มและงานใกล้ครบกำหนด",
+      "risk": "ใกล้กับแดชบอร์ดการศึกษาทั่วไป ต้องทำลำดับข้อมูลให้เฉียบคม",
+      "html": ".impeccable/mocks/decision/pick.html",
+      "comp": ".impeccable/mocks/decision/pick.webp"
+    },
+    {
+      "id": "gate-board",
+      "kind": "challenger",
+      "catalogId": "vernacular-ephemera-boarding-pass-and-gate-board",
+      "label": "Next Up Board",
+      "verdict": "competitive",
+      "lineage": "กระดานอัปเดตสถานะที่เห็นเรื่องเปลี่ยนทันที",
+      "thesis": "กำหนดส่งและคะแนนที่เปลี่ยนแปลงขึ้นนำก่อนข้อมูลนิ่ง",
+      "palette": ["#18262d", "#f5f6f4", "#16716b", "#d8893d"],
+      "materials": ["แถวสถานะ", "ตัวเลขจัดแนว"],
+      "viewport": "ตารางงานใกล้ถึงเป็นจุดนำ รายวิชาและ GPA แสดงในพื้นที่ที่คุ้นเคย",
+      "case": "อ่านสถานะเร่งด่วนได้ดี แต่คะแนนรวมอาจถูกผลักลงต่ำกว่าเป้าหมายของผู้ใช้",
+      "risk": "หากทุกแถวดูเร่งด่วน นักศึกษาจะมองไม่ออกว่าอะไรสำคัญจริง",
+      "html": ".impeccable/mocks/decision/gate-board.html",
+      "comp": ".impeccable/mocks/decision/gate-board.webp",
+      "hero": "https://impeccable.style/worlds/cards/vernacular-ephemera-boarding-pass-and-gate-board-hero.webp"
+    },
+    {
+      "id":"type-specimen","kind":"challenger","catalogId":"variable-font-specimen","label":"Type Specimen","verdict":"declined","lineage":"ตัวอย่างแบบอักษรปรับน้ำหนักได้","thesis":"ให้ตัวเลขคะแนนเป็นตัวเอก","palette":["#ffffff","#152b28","#146b56"],"materials":["ตัวอักษรขนาดใหญ่","พื้นที่ว่าง"],"viewport":"คะแนนเต็มจอและเครื่องมือปรับเป้าหมาย","case":"พลังของตัวเลขดี แต่พื้นที่ทำงานจริงถูกบีบ","risk":"กลายเป็นงานโชว์ตัวอักษรมากกว่าเครื่องมือเรียน","kept":"ให้ตัวเลขสำคัญมีลำดับเด่นที่ชัด"
+    },
+    {
+      "id":"labanotation","kind":"challenger","catalogId":"notation-diagram-systems-labanotation","label":"Labanotation","verdict":"declined","lineage":"ระบบบันทึกท่าทาง","thesis":"แสดงเวลาและความก้าวหน้าเป็นแกน","palette":["#ffffff","#172c27","#cedbd4"],"materials":["แกนเวลา","บล็อกสถานะ"],"viewport":"การเรียนไหลขึ้นตามเวลา","case":"ระยะเวลาชัด แต่ไม่ใช่วิธีอ่านคะแนนที่นักศึกษาคุ้นเคย","risk":"ต้องเรียนรู้สัญลักษณ์ใหม่","kept":"เวลาควรมีน้ำหนักจริงในหน้าแผนงาน"
+    },
+    {
+      "id":"video-feed","kind":"challenger","catalogId":"pop-culture-shelf-vertical-video-feed-surface","label":"Vertical Feed","verdict":"declined","lineage":"หน้าเนื้อหาเต็มจอทีละชิ้น","thesis":"โฟกัสทีละวิชา","palette":["#142d29","#ffffff","#67b99a"],"materials":["หนึ่งหัวข้อเต็มจอ","ท่าทางปัด"],"viewport":"หนึ่งวิชาในหนึ่งหน้าจอ","case":"ดีต่อการโฟกัส แต่เทียบหลายวิชาไม่ได้เร็ว","risk":"เพิ่มขั้นตอนการเข้าถึงข้อมูล","kept":"รายละเอียดวิชาควรมีจุดโฟกัสเดียว"
+    },
+    {
+      "id":"manual","kind":"challenger","catalogId":"rw-manual-acetate-tab-board","label":"Reference Manual","verdict":"declined","lineage":"คู่มือซอฟต์แวร์แบบแท็บสี","thesis":"แบ่งข้อมูลเป็นตอนชัดเจน","palette":["#e4a32e","#137c79","#f7f6f0","#233334"],"materials":["แท็บสี","พื้นที่อ่าน"],"viewport":"เนื้อหาอยู่บนแผ่นสีแต่ละหมวด","case":"หมวดชัด แต่ชั้นแผ่นซ้อนทำให้เครื่องมือช้าลง","risk":"ภาพเปรียบเทียบเอกสารบดบังปุ่มใช้งาน","kept":"สีหมวดหมู่ต้องสื่อความหมายทั้งระบบ"
+    },
+    {
+      "id":"dense-web","kind":"challenger","catalogId":"japanese-high-density-web","label":"Dense Web","verdict":"declined","lineage":"เว็บข้อมูลหนาแน่น","thesis":"เห็นหลายรายการโดยไม่ต้องเลื่อน","palette":["#ffffff","#182c29","#bf3b32","#e2e8e5"],"materials":["เส้นแบ่งละเอียด","ตารางกระชับ"],"viewport":"ข้อมูลหลายหมวดเต็มหน้า","case":"ความหนาแน่นช่วยการสแกน แต่ตัวอักษรเล็กขัดกับความอ่านง่าย","risk":"ยิ่งเล็กยิ่งพลาดคะแนน","kept":"ลดพื้นที่ว่างที่ไม่ช่วยการตัดสินใจ"
+    }
+  ],
+  "reroll": {"registers":["safer","bolder"]},
+  "buildPath": {"value":"code","toggle":true},
+  "canon": true,
+  "canonCard": {"kind":"canon","label":"แดชบอร์ดมาตรฐาน","thesis":"หน้าเกรดที่จัดระเบียบตามรูปแบบที่คุ้นเคย","palette":["#ffffff","#172c27","#146b56"],"materials":["ตาราง","การ์ดสถิติ"],"viewport":"GPA อยู่บนสุด ตามด้วยรายวิชาและกราฟ","risk":"แยกไม่ออกจากเครื่องมือทั่วไป","html":".impeccable/mocks/decision/canon.html","comp":".impeccable/mocks/decision/canon.webp"},
+  "steer": true
+}

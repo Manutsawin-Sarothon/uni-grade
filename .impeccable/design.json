@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-16T22:04:02+07:00",
+  "title": "Design System: UniGrade Campus Index",
+  "extensions": {
+    "colorMeta": {
+      "teal": { "role": "primary", "displayName": "Campus Teal", "tonalRamp": ["#072c2a", "#0b4140", "#116b67", "#278f88", "#62b5a8", "#9bd4c5", "#dceee8", "#f0f8f3"] },
+      "goal": { "role": "primary", "displayName": "Goal Blue-Green", "tonalRamp": ["#071d20", "#0b2d31", "#103e42", "#245d60", "#5b9291", "#9ac0b7", "#d5e6dd", "#f1f6ef"] },
+      "chalk": { "role": "neutral", "displayName": "Chalk", "tonalRamp": ["#1d2723", "#37413b", "#59645b", "#7d897f", "#a6b1a6", "#cbd4c9", "#f3f4ef", "#fbfcf8"] },
+      "paper": { "role": "neutral", "displayName": "Paper", "tonalRamp": ["#202b26", "#3c4840", "#617064", "#89998b", "#b3c0b0", "#dce4d6", "#f2f5ec", "#fcfcf8"] },
+      "deadline": { "role": "tertiary", "displayName": "Deadline Ochre", "tonalRamp": ["#35210e", "#56340e", "#925517", "#b87a2d", "#d69f56", "#edc88e", "#fff0cf", "#fff9ec"] },
+      "danger": { "role": "tertiary", "displayName": "Danger Red", "tonalRamp": ["#390f10", "#651b1b", "#a73730", "#c65c51", "#dd8b7e", "#edb8ab", "#fae9e4", "#fff7f3"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Goal GPA", "purpose": "The dominant grade target figure." },
+      "headline": { "displayName": "Page heading", "purpose": "Thai page titles." },
+      "label": { "displayName": "Index and data label", "purpose": "Comparable numbers, counters, and compact labels." }
+    },
+    "shadows": [
+      { "name": "panel-rest", "value": "none", "purpose": "Dashboard cards remain flat at rest." },
+      { "name": "legacy-control", "value": "0 2px 12px rgba(18, 48, 39, .035)", "purpose": "Subtle depth on retained controls outside the dashboard panels." }
+    ],
+    "motion": [
+      { "name": "panel-state", "value": "0.18s", "purpose": "Border, shadow, and transform changes on cards." },
+      { "name": "entry", "value": "0.22s", "purpose": "Short view entry animation; disabled for reduced motion." },
+      { "name": "focus-visible", "value": "3px solid #d39927; outline-offset: 3px", "purpose": "Visible keyboard focus on interactive controls." }
+    ],
+    "breakpoints": [
+      { "name": "dock", "value": "900px" },
+      { "name": "single-column", "value": "650px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Solid teal action for adding or confirming academic work.",
+      "html": "<button class=\"ds-button-primary\" type=\"button\">เพิ่มรายวิชา</button>",
+      "css": ".ds-button-primary{background:var(--accent,#116b67);color:#fff;border:0;border-radius:7px;padding:12px 17px;font:700 13px Prompt,sans-serif;cursor:pointer;transition:background .18s}.ds-button-primary:hover{background:#0d514f}.ds-button-primary:active{transform:scale(.98)}.ds-button-primary:focus-visible{outline:3px solid #d39927;outline-offset:3px}"
+    },
+    {
+      "name": "Goal Action",
+      "kind": "button",
+      "refersTo": "button-goal",
+      "description": "High contrast planning action inside the goal panel.",
+      "html": "<button class=\"ds-goal-action\" type=\"button\">วางแผนให้ถึงเป้าหมาย ↗</button>",
+      "css": ".ds-goal-action{background:#d5f3df;color:#123b39;border:1px solid #8ad6be;border-radius:7px;padding:10px 15px;font:800 13px Prompt,sans-serif;cursor:pointer;transition:background .18s}.ds-goal-action:hover{background:#fff}.ds-goal-action:active{transform:scale(.98)}.ds-goal-action:focus-visible{outline:3px solid #d39927;outline-offset:3px}"
+    },
+    {
+      "name": "Score Input",
+      "kind": "input",
+      "description": "Monospaced numeric field for assessment scores.",
+      "html": "<input class=\"ds-score-input\" aria-label=\"คะแนน\" inputmode=\"decimal\" value=\"85\">",
+      "css": ".ds-score-input{width:80px;min-height:48px;background:var(--glass-bg,#fcfcf8);color:var(--ink,#102f2f);border:1px solid var(--glass-border,#cddbd3);border-radius:8px;padding:8px 12px;text-align:center;font:700 16px 'DM Mono',monospace;transition:border-color .2s,background .2s}.ds-score-input:hover{border-color:var(--accent,#116b67)}.ds-score-input:focus{border-color:var(--accent,#116b67);background:var(--glass-bg-hover,#eff4f0)}.ds-score-input:focus-visible{outline:3px solid #d39927;outline-offset:3px}"
+    },
+    {
+      "name": "Navigation Item",
+      "kind": "nav",
+      "refersTo": "nav-active",
+      "description": "Active destination on the campus rail or bottom dock.",
+      "html": "<nav class=\"ds-rail\"><button class=\"ds-nav-item\" type=\"button\" aria-current=\"page\"><span aria-hidden=\"true\">▦</span><span>ภาพรวม</span></button></nav>",
+      "css": ".ds-rail{background:#103538;padding:12px}.ds-nav-item{display:flex;align-items:center;gap:13px;min-height:46px;width:100%;padding:0 15px;border:0;border-radius:5px;background:#166c69;color:#f7faf3;font:600 13px Prompt,sans-serif;text-align:left;cursor:pointer}.ds-nav-item:hover{background:#244f50}.ds-nav-item:focus-visible{outline:3px solid #d39927;outline-offset:3px}"
+    },
+    {
+      "name": "Course Index Row",
+      "kind": "custom",
+      "description": "Numbered academic index linking a course to its details.",
+      "html": "<button class=\"ds-course-row\" type=\"button\"><span class=\"ds-course-number\">01</span><span class=\"ds-course-name\">แคลคูลัสสำหรับวิศวกร<small>3 หน่วยกิต</small></span><span class=\"ds-course-grade\">B+</span><span class=\"ds-course-arrow\">↗</span></button>",
+      "css": ".ds-course-row{display:flex;align-items:center;gap:14px;width:100%;min-height:70px;padding:12px 0;border:0;border-bottom:1px solid var(--glass-border,#cddbd3);background:transparent;color:var(--ink,#102f2f);text-align:left;cursor:pointer}.ds-course-row:hover{background:var(--glass-bg-hover,#eff4f0)}.ds-course-row:focus-visible{outline:3px solid #d39927;outline-offset:3px}.ds-course-number{width:30px;flex:none;color:var(--accent,#116b67);font:700 12px 'DM Mono',monospace}.ds-course-name{flex:1;font:700 14px Prompt,sans-serif}.ds-course-name small{display:block;margin-top:3px;color:var(--ink-secondary,#385a56);font:500 11px Prompt,sans-serif}.ds-course-grade{font:700 13px 'DM Mono',monospace}.ds-course-arrow{color:var(--accent,#116b67)}"
+    },
+    {
+      "name": "Goal Panel",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "The dominant target GPA summary panel.",
+      "html": "<section class=\"ds-goal-panel\"><div class=\"ds-goal-label\">เป้าหมาย GPA · เทอม 1</div><div class=\"ds-goal-number\">3.50</div><p>ต้องทำ GP เฉลี่ย 3.50 ใน 2 วิชาที่เหลือ</p></section>",
+      "css": ".ds-goal-panel{background:#103e42;color:#f9fbf5;border:1px solid #103e42;border-radius:9px;padding:30px 36px;font-family:Prompt,sans-serif}.ds-goal-label{color:#c7dfd2;font:700 12px 'DM Mono',monospace;letter-spacing:.7px}.ds-goal-number{margin:14px 0 9px;font:700 80px/1 'DM Mono',monospace;letter-spacing:-6px}.ds-goal-panel p{margin:0;color:#e3f2e9;font-size:15px;line-height:1.6}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Campus Index",
+    "overview": "UniGrade reads like a concise academic record. A stable dark rail and pale work surface frame the student's grade target; numbered rows and thin rules make courses easy to scan. Thai Prompt carries explanations and actions, while DM Mono distinguishes quantities, codes, and GPA figures.",
+    "keyCharacteristics": [
+      "The goal is the strongest visual panel; course and deadline information follows in indexed rows.",
+      "Flat, lightly ruled surfaces keep a dense workspace legible.",
+      "Teal marks actions and active location; warm color marks deadlines and attention."
+    ],
+    "rules": [
+      { "name": "The Sparse Signal Rule", "body": "Reserve warm color for attention and status; ordinary progress and navigation use teal.", "section": "colors" },
+      { "name": "The Measured Number Rule", "body": "Use DM Mono for comparable figures and indexes, then return to Prompt for Thai names and explanatory copy.", "section": "typography" },
+      { "name": "The Ruled Surface Rule", "body": "Prefer a border or divider over a raised card when grouping academic information.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do lead planning views with the target GPA and the remaining requirement.",
+      "Do use thin rules, numbered rows, and tabular figures for comparable academic data.",
+      "Do preserve Thai readability and the visible gold keyboard focus treatment."
+    ],
+    "donts": [
+      "Don't turn every panel into a floating or glass surface.",
+      "Don't use warm attention colors for ordinary navigation.",
+      "Don't hide the primary planning action behind secondary statistics."
+    ]
+  }
+}

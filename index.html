@@ -3,27 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unigrade | Score Tracker</title>
+<title>UniGrade | พื้นที่วางแผนการเรียน</title>
+<meta name="description" content="ติดตามคะแนน วางแผนเกรด และเห็นความก้าวหน้าของการเรียนในที่เดียว">
 
 <!-- iOS / PWA / Web App Manifest & Icons -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Unigrade">
-<meta name="application-name" content="Unigrade">
-<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-title" content="UniGrade">
+<meta name="application-name" content="UniGrade">
+<meta name="theme-color" content="#146b56">
 
-<!-- App Icon from Google Drive -->
-<link rel="icon" type="image/png" sizes="192x192" href="https://lh3.googleusercontent.com/d/1JScnXLmRdBmx7TKJUDdVqTPx_iHXo6b-">
-<link rel="shortcut icon" href="https://lh3.googleusercontent.com/d/1JScnXLmRdBmx7TKJUDdVqTPx_iHXo6b-" type="image/png">
-
-<link rel="apple-touch-icon" sizes="180x180" href="https://lh3.googleusercontent.com/d/1JScnXLmRdBmx7TKJUDdVqTPx_iHXo6b-">
-<link rel="apple-touch-icon-precomposed" sizes="180x180" href="https://lh3.googleusercontent.com/d/1JScnXLmRdBmx7TKJUDdVqTPx_iHXo6b-">
-
-<link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Unigrade%22%2C%22short_name%22%3A%22Unigrade%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23ffffff%22%2C%22theme_color%22%3A%22%23ffffff%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Flh3.googleusercontent.com%2Fd%2F1JScnXLmRdBmx7TKJUDdVqTPx_iHXo6b-%22%2C%22sizes%22%3A%22180x180%20192x192%20512x512%22%2C%22type%22%3A%22image%2Fpng%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D'>
+<link rel="icon" type="image/svg+xml" href="app-icon.svg">
+<link rel="alternate icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&family=Prompt:wght@300;400;500;600;700;800&display=optional" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <!-- External Libraries — defer non-critical, keep Chart.js sync for first paint -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js" defer></script>
@@ -58,8 +55,9 @@
   --purple: #af52de;
   --purple-light: rgba(175, 82, 222, 0.08);
   
-  --mono: 'DM Mono', monospace;
-  --body: "Prompt", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --mono: 'Kanit', sans-serif;
+  --body: 'Kanit', sans-serif;
+  --sans: 'Kanit', sans-serif;
   
   --r-xl: 28px;
   --r-lg: 20px;
@@ -1497,7 +1495,7 @@ input:checked + .slider:before { transform: translateX(18px); }
   background: white; 
   color: black; 
   padding: 0;
-  font-family: 'Prompt', sans-serif;
+  font-family: 'Kanit', sans-serif;
   z-index: -1;
   opacity: 0;
   pointer-events: none;
@@ -1608,6 +1606,13 @@ input:checked + .slider:before { transform: translateX(18px); }
 .qm-tooltip.show { opacity: 1; pointer-events: auto; }
 .qm-tooltip-wrap { position: relative; display: inline-block; }
 </style>
+<link rel="stylesheet" href="redesign.css">
+<style id="force-kanit-font">
+/* UniGrade typography: Kanit for text across Windows, macOS, Linux, iOS and Android. */
+html, body, body *, body *::before, body *::after {
+  font-family: 'Kanit', sans-serif !important;
+}
+</style>
 </head>
 <body>
 
@@ -1624,7 +1629,7 @@ input:checked + .slider:before { transform: translateX(18px); }
     <!-- Step 1: Welcome -->
     <div class="onboard-step active" id="onboard-step-1">
       <span class="onboard-icon">
-        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        <img src="app-icon.svg" width="56" height="56" alt="">
       </span>
       <div class="onboard-title">ยินดีต้อนรับสู่ Unigrade</div>
       <div class="onboard-desc">ติดตามคะแนน คำนวณ GPA และวางแผนการเรียนได้ในที่เดียว ออกแบบมาเพื่อนักศึกษาไทยโดยเฉพาะ</div>
@@ -1746,9 +1751,9 @@ input:checked + .slider:before { transform: translateX(18px); }
   </div>
 </div>
 
-<!-- Term Dropdown Overlay (Center Screen) -->
-<div id="dropdown-overlay" onclick="toggleTermDropdown()" role="presentation" aria-hidden="true"></div>
-<div class="term-list" id="term-list" role="listbox" aria-label="รายการเทอม"></div>
+<!-- Term switcher surface -->
+<div id="dropdown-overlay" onclick="toggleTermDropdown(false)" role="presentation" aria-hidden="true"></div>
+<div class="term-list" id="term-list" role="dialog" aria-modal="true" aria-labelledby="term-menu-title"></div>
 
 <!-- Toast Container -->
 <div id="toast-container" role="status" aria-live="polite" aria-atomic="false"></div>
@@ -2001,13 +2006,21 @@ input:checked + .slider:before { transform: translateX(18px); }
 
 <!-- ════ LOGIN VIEW ════ -->
 <div id="login-view">
+  <div class="login-intro" aria-hidden="true">
+    <img class="brand-mark" src="app-icon.svg" alt="">
+    <div class="intro-kicker">YOUR LEARNING COMPANION</div>
+    <h2>ทุกคะแนน<br>พาไปต่อได้</h2>
+    <p>มองเห็นความก้าวหน้า วางแผนเป้าหมาย และจัดการทุกวิชาในพื้นที่เดียว</p>
+    <div class="intro-lines"><span>01 / ติดตามคะแนน</span><span>02 / วางแผนเกรด</span><span>03 / ไปถึงเป้าหมาย</span></div>
+  </div>
   <div class="login-card ani">
     <!-- Graduation Cap Icon on Login Screen -->
       <div style="margin-bottom: 24px; display: flex; justify-content: center; align-items: center;">
-        <img src="https://lh3.googleusercontent.com/d/1JScnXLmRdBmx7TKJUDdVqTPx_iHXo6b-" alt="App Icon" style="width: 100px; height: 100px; border-radius: 24px; object-fit: cover; box-shadow: 0 12px 24px var(--accent-light);">
+        <img src="app-icon.svg" alt="โลโก้ UniGrade" width="100" height="100" style="width: 100px; height: 100px; border-radius: 24px; object-fit: cover; box-shadow: 0 12px 24px var(--accent-light);">
     </div>
-    <h1 style="font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px;">Unigrade</h1>
-    <p style="color: var(--ink2); margin-bottom: 32px; font-size: 15px; font-weight: 600;">ติดตามคะแนน คำนวณ GPA ซิงก์ทุกอุปกรณ์</p>
+    <div class="login-eyebrow">เริ่มต้นการเรียนอย่างมั่นใจ</div>
+    <h1 style="font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px;">ยินดีต้อนรับสู่ UniGrade</h1>
+    <p style="color: var(--ink2); margin-bottom: 32px; font-size: 15px; font-weight: 600;">คะแนน แผนการเรียน และเป้าหมายของคุณอยู่ที่นี่</p>
     
     <!-- Loading Indicator -->
     <div id="login-loading" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100px;">
@@ -2030,6 +2043,7 @@ input:checked + .slider:before { transform: translateX(18px); }
 
 <!-- ════ MAIN APP ════ -->
 <div class="app" id="main-app" style="display: none;">
+  <div class="app-brand no-print"><img class="brand-mark" src="app-icon.svg" alt="โลโก้ UniGrade"><div><strong>UniGrade</strong><small>LEARNING STUDIO</small></div></div>
   
   <!-- Floating Top Nav -->
   <div class="top-bar-container no-print" id="top-nav">
@@ -2044,10 +2058,10 @@ input:checked + .slider:before { transform: translateX(18px); }
       
       <div class="top-bar-center">
         <div class="term-selector">
-          <div class="term-btn" onclick="toggleTermDropdown()" role="button" aria-haspopup="listbox" aria-label="เลือกเทอม">
+          <button class="term-btn" id="term-trigger" type="button" onclick="toggleTermDropdown()" aria-haspopup="dialog" aria-expanded="false" aria-controls="term-list" aria-label="เปลี่ยนเทอม">
             <span id="term-label">เทอม 1</span>
-            <span style="font-size: 10px; opacity: 0.5;">▼</span>
-          </div>
+            <svg class="term-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
         </div>
       </div>
       
@@ -2062,6 +2076,7 @@ input:checked + .slider:before { transform: translateX(18px); }
   
   <!-- Main Content Area -->
   <main class="main-wrap" id="main-wrap">
+    <div class="page-heading no-print"><div><div class="page-eyebrow"><span id="page-section">ภาพรวม</span></div><h1 id="page-title">แผนเกรดเทอมนี้</h1><p id="page-description">เห็นระยะห่างจากเป้าหมายและเลือกสิ่งที่ต้องทำต่อ</p></div><button class="heading-action" type="button" onclick="window.switchView('subjects'); document.getElementById('btn-add-subject').click();"><span aria-hidden="true">＋</span> เพิ่มรายวิชา</button></div>
 
     <!-- Hide Grades Indicator -->
     <div id="hide-grades-indicator" style="position: fixed; top: 90px; right: 20px; z-index: 700; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 100px; padding: 8px 16px; box-shadow: var(--glass-shadow); display: none; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--ink2);">
@@ -2203,9 +2218,9 @@ input:checked + .slider:before { transform: translateX(18px); }
     <!-- VIEW: Target GPA -->
     <div id="view-targets" class="bento-grid hide-on-print" style="display: none;">
       <div class="bento-card col-12 ani">
-        <div class="title-md" style="font-size: 32px; margin-bottom: 8px; display:flex; align-items:center; gap:12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> เป้าหมาย GPA</div>
-        <p style="color: var(--ink2); font-size: 14px; font-weight: 600; margin-bottom: 32px;">ตั้งเป้าหมาย GPA ของเทอมนี้ ระบบจะคำนวณเกรดขั้นต่ำที่ต้องทำในวิชาที่เหลือ</p>
-        <div style="display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 32px;">
+        <div class="title-md target-intro-title" style="font-size: 32px; margin-bottom: 8px; display:flex; align-items:center; gap:12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> เป้าหมาย GPA</div>
+        <p class="target-intro-copy" style="color: var(--ink2); font-size: 14px; font-weight: 600; margin-bottom: 32px;">ตั้งเป้าหมาย GPA ของเทอมนี้ ระบบจะคำนวณเกรดขั้นต่ำที่ต้องทำในวิชาที่เหลือ</p>
+        <div class="target-controls" style="display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 32px;">
           <div style="min-width: 250px;">
             <div class="label" style="margin-bottom: 12px;">เป้าหมายเกรดรวม</div>
             <div id="target-gpa-container"></div>
@@ -2285,27 +2300,34 @@ input:checked + .slider:before { transform: translateX(18px); }
   <div class="dock-container no-print">
     <nav class="apple-dock" role="navigation" aria-label="เมนูหลัก">
       <div class="dock-item active" data-view="dashboard" data-tooltip="ภาพรวม" role="button" aria-label="ภาพรวม" tabindex="0">
+        <span class="nav-label">ภาพรวม</span>
         <svg class="dock-icon" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       </div>
       <div class="dock-item" data-view="subjects" data-tooltip="วิชาเรียน" role="button" aria-label="วิชาเรียน" tabindex="0">
+        <span class="nav-label">รายวิชา</span>
         <svg class="dock-icon" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
       </div>
       <div class="dock-item" data-view="targets" data-tooltip="เป้าหมาย" role="button" aria-label="เป้าหมาย" tabindex="0">
+        <span class="nav-label">เป้าหมาย</span>
         <svg class="dock-icon" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
       </div>
       <div class="dock-item" data-view="planner" data-tooltip="ปฏิทิน" role="button" aria-label="ปฏิทิน" tabindex="0">
+        <span class="nav-label">ปฏิทิน</span>
         <svg class="dock-icon" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       </div>
       <div class="dock-item" data-view="analytics" data-tooltip="วิเคราะห์" role="button" aria-label="วิเคราะห์" tabindex="0">
+        <span class="nav-label">วิเคราะห์</span>
         <svg class="dock-icon" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       </div>
       <div class="dock-divider" role="separator" aria-hidden="true"></div>
       <div class="dock-item" id="dock-hide-grades" data-tooltip="ซ่อนเกรด" role="button" aria-label="ซ่อน/แสดงเกรด" tabindex="0">
+        <span class="nav-label">ซ่อนเกรด</span>
         <div class="dock-icon" aria-hidden="true" style="display:flex;align-items:center;justify-content:center;">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
         </div>
       </div>
       <div class="dock-item" onclick="openModal('settings-modal')" data-tooltip="เมนูจัดการ" role="button" aria-label="เมนูจัดการ" tabindex="0">
+        <span class="nav-label">ตั้งค่า</span>
         <svg class="dock-icon" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </div>
     </nav>
@@ -2320,6 +2342,9 @@ input:checked + .slider:before { transform: translateX(18px); }
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+// Chart.js renders on canvas, so it needs explicit typography settings.
+if (window.Chart) Chart.defaults.font.family = 'Kanit';
 
 const GP = { 'A':4.0, 'B+':3.5, 'B':3.0, 'C+':2.5, 'C':2.0, 'D+':1.5, 'D':1.0, 'F':0.0, 'W':null };
 const DEFAULT_BOUNDARY = { 'A':80, 'B+':75, 'B':70, 'C+':65, 'C':60, 'D+':55, 'D':50, 'F':0 };
@@ -2347,6 +2372,12 @@ let appData = {
 };
 let currentTermId = 1, currentSubjId = null, currentView = 'dashboard';
 let syncTimer = null, chartInstances = {}, calYear = new Date().getFullYear(), calMonth = new Date().getMonth();
+// Refresh canvas text after Kanit finishes loading.
+document.fonts.ready.then(() => {
+  Object.values(chartInstances).forEach(chart => {
+    if (chart && typeof chart.update === 'function') chart.update('none');
+  });
+});
 let selectedFinalTarget = null, unsubSnapshot = null;
 window.prevView = 'dashboard'; 
 let hasAppInitialized = false;
@@ -2582,11 +2613,54 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Centralized Term Dropdown Toggle
-window.toggleTermDropdown = () => {
-  document.getElementById('term-list').classList.toggle('open');
-  document.getElementById('dropdown-overlay').classList.toggle('open');
+// The switcher stays attached to the trigger on wide screens and becomes a sheet on phones.
+const placeTermMenu = () => {
+  if (window.innerWidth <= 650) return;
+  const trigger = document.getElementById('term-trigger');
+  const menu = document.getElementById('term-list');
+  if (!trigger || !menu.classList.contains('open')) return;
+  const box = trigger.getBoundingClientRect();
+  const width = Math.min(340, window.innerWidth - 32);
+  menu.style.left = `${Math.max(16, Math.min(box.right - width, window.innerWidth - width - 16))}px`;
+  menu.style.top = `${Math.min(box.bottom + 10, window.innerHeight - menu.offsetHeight - 16)}px`;
 };
+window.toggleTermDropdown = (force) => {
+  const menu = document.getElementById('term-list');
+  const overlay = document.getElementById('dropdown-overlay');
+  const trigger = document.getElementById('term-trigger');
+  const open = typeof force === 'boolean' ? force : !menu.classList.contains('open');
+  menu.classList.toggle('open', open);
+  overlay.classList.toggle('open', open);
+  trigger.classList.toggle('open', open);
+  trigger.setAttribute('aria-expanded', String(open));
+  document.body.classList.toggle('term-menu-open', open);
+  if (open) {
+    placeTermMenu();
+    menu.querySelector('.term-item[aria-current="true"], .term-item')?.focus();
+  } else {
+    menu.style.left = '';
+    menu.style.top = '';
+    trigger.focus();
+  }
+};
+window.addEventListener('resize', placeTermMenu);
+document.addEventListener('keydown', event => {
+  const menu = document.getElementById('term-list');
+  if (!menu.classList.contains('open')) return;
+  if (event.key === 'Escape') { event.preventDefault(); toggleTermDropdown(false); return; }
+  if (event.key === 'Tab') {
+    const controls = [...menu.querySelectorAll('button:not([disabled])')];
+    const first = controls[0], last = controls[controls.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    return;
+  }
+  if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+  const items = [...menu.querySelectorAll('.term-item')];
+  const index = items.indexOf(document.activeElement);
+  const next = event.key === 'ArrowDown' ? (index + 1) % items.length : (index - 1 + items.length) % items.length;
+  if (items.length) { event.preventDefault(); items[next].focus(); }
+});
 
 // SVG icon presets for modals
 const MODAL_ICONS = {
@@ -2771,22 +2845,9 @@ const triggerWelcomeAndStart = () => {
     }
     localStorage.setItem('last_open_ts', now.toString());
     
-    ws.style.display = 'flex';
-    
-    // Trigger fade in and out
-    requestAnimationFrame(() => {
-        ws.style.opacity = '1';
-        setTimeout(() => {
-          if (subtitleEl) { subtitleEl.style.transition = 'opacity 0.5s ease'; subtitleEl.style.opacity = '0.7'; }
-        }, 500);
-        setTimeout(() => {
-            ws.style.opacity = '0';
-            setTimeout(() => {
-                ws.style.display = 'none';
-                startApp();
-            }, 800);
-        }, 2200);
-    });
+    // Show the workspace immediately after sign-in; the former greeting held it for 3 seconds.
+    ws.style.display = 'none';
+    startApp();
 };
 
 const checkPinAndStart = () => {
@@ -2920,7 +2981,7 @@ document.getElementById('btn-logout')?.addEventListener('click', doLogout);
 document.getElementById('btn-logout-pin')?.addEventListener('click', doLogout);
 
 const renderProfile = (user) => {
-  const pic = appData.userProfilePic || user?.photoURL || "https://lh3.googleusercontent.com/d/1JScnXLmRdBmx7TKJUDdVqTPx_iHXo6b-";
+  const pic = appData.userProfilePic || user?.photoURL || "icon-192.png";
   const name = user?.displayName || 'ผู้ใช้งาน';
   const email = (user && !user.isAnonymous) ? user.email : 'Local Mode';
 
@@ -3139,6 +3200,19 @@ const switchView = (view, subjId = null) => {
   
   if (subjId !== null) currentSubjId = subjId;
   currentView = view;
+  const pageCopy = {
+    dashboard: ['ภาพรวม', 'แผนเกรดเทอมนี้', 'เห็นระยะห่างจากเป้าหมายและเลือกสิ่งที่ต้องทำต่อ'],
+    subjects: ['รายวิชา', 'รายวิชาของฉัน', 'จัดการคะแนนและหน่วยกิตของทุกวิชา'],
+    subject: ['รายวิชา', 'รายละเอียดรายวิชา', 'ติดตามคะแนนและวางแผนเกรดวิชานี้'],
+    targets: ['เป้าหมาย', 'วางแผนเป้าหมาย', 'รู้ว่าต้องทำอีกเท่าไรเพื่อไปถึงเกรดที่ต้องการ'],
+    planner: ['ปฏิทิน', 'กำหนดการเรียน', 'ไม่พลาดงานและการสอบที่กำลังจะมาถึง'],
+    analytics: ['วิเคราะห์', 'เจาะลึกผลการเรียน', 'มองเห็นแนวโน้มและจุดที่ควรโฟกัส']
+  }[view];
+  if (pageCopy) {
+    document.getElementById('page-section').textContent = pageCopy[0];
+    document.getElementById('page-title').textContent = pageCopy[1];
+    document.getElementById('page-description').textContent = pageCopy[2];
+  }
   
   ['view-dashboard', 'view-subjects', 'view-subject', 'view-targets', 'view-planner', 'view-analytics'].forEach(id => {
     const el = document.getElementById(id); if (el) el.style.display = 'none';
@@ -3242,26 +3316,41 @@ const renderApp = () => {
   updateHideGradesUI();
   
   // Render Term List — skip if content unchanged
-  const termSig = appData.terms.map(t => t.id + ':' + t.name).join('|');
+  const termSig = currentTermId + '|' + appData.terms.map(t => t.id + ':' + t.name + ':' + (t.subjects?.length || 0)).join('|');
   if (renderApp._lastTermSig !== termSig) {
     renderApp._lastTermSig = termSig;
-    const termHeader = `
-      <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: -12px -12px 12px -12px; padding: 20px 16px 16px; border-bottom: 1px solid var(--glass-border); position: sticky; top: -12px; background: var(--glass-bg); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); z-index: 10; border-radius: var(--r-lg) var(--r-lg) 0 0;">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 4px 6px var(--accent-light));">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
-          <path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path><path d="M16 18h.01"></path>
-        </svg>
-        <div style="font-size: 18px; font-weight: 800; color: var(--ink); letter-spacing: -0.5px;">เลือกเทอม</div>
-      </div>
-    `;
-    const termItems = appData.terms.map(t => `<div class="term-item" data-id="${t.id}">${t.name}</div>`).join('');
-    document.getElementById('term-list').innerHTML = termHeader + termItems;
-    document.querySelectorAll('.term-item').forEach(el => {
-      el.addEventListener('click', () => {
-        currentTermId = parseInt(el.dataset.id); currentSubjId = null; saveData();
-        toggleTermDropdown(); switchView('dashboard');
+    const menu = document.getElementById('term-list');
+    menu.innerHTML = '<div class="term-menu-head"><div><h2 id="term-menu-title">เปลี่ยนเทอม</h2><p>เลือกเทอมที่ต้องการดูผลการเรียน</p></div><button type="button" class="term-menu-close" aria-label="ปิดเมนู" onclick="toggleTermDropdown(false)">×</button></div><div class="term-menu-items"></div>';
+    const items = menu.querySelector('.term-menu-items');
+    appData.terms.forEach((term, index) => {
+      const item = document.createElement('button');
+      const active = term.id === currentTermId;
+      item.type = 'button';
+      item.className = 'term-item' + (active ? ' active' : '');
+      item.dataset.id = term.id;
+      if (active) item.setAttribute('aria-current', 'true');
+      const number = document.createElement('span');
+      number.className = 'term-index';
+      number.textContent = String(index + 1).padStart(2, '0');
+      const detail = document.createElement('span');
+      detail.className = 'term-detail';
+      const name = document.createElement('strong');
+      name.textContent = term.name;
+      const count = document.createElement('small');
+      count.textContent = `${term.subjects?.length || 0} วิชา`;
+      detail.append(name, count);
+      const state = document.createElement('span');
+      state.className = 'term-state';
+      state.textContent = active ? 'กำลังดู' : '↗';
+      item.append(number, detail, state);
+      item.addEventListener('click', () => {
+        if (term.id === currentTermId) { toggleTermDropdown(false); return; }
+        currentTermId = term.id; currentSubjId = null; saveData();
+        toggleTermDropdown(false); switchView('dashboard');
       });
+      items.append(item);
     });
+    placeTermMenu();
   }
 
   if (currentView === 'dashboard') renderDashboard();
@@ -3274,58 +3363,91 @@ const renderApp = () => {
 
 const renderDashboard = () => {
   const subjects = getSubjects(), termR = calcTermGPA(getTerm()), cum = calcCumGPA();
-  
-  // GPA milestone delight (once per session)
-  const gpaKey = `gpa_celebrated_${currentTermId}`;
-  if (termR.gpa !== null && termR.gpa >= 3.5 && !sessionStorage.getItem(gpaKey)) {
-    sessionStorage.setItem(gpaKey, '1');
-    setTimeout(() => {
-      if (termR.gpa >= 4.0) { spawnConfetti(40); toast('GPA 4.00 เต็ม! คุณทำได้แล้ว', false, 'celebrate'); }
-      else if (termR.gpa >= 3.5) { spawnConfetti(20); toast(`GPA ${termR.gpa.toFixed(2)} เยี่ยมมาก!`, false, 'celebrate'); }
-    }, 600);
-  }
-  
-  const trs = subjects.map(s => {
-    const r = calcSubject(s), g = scoreToGrade(r.score, s);
-    const scoreStr = s.quickMode ? (s.quickGrade || '-') : r.score.toFixed(1);
-    const wTag = g.letter === 'W' ? '<span style="font-size:10px; font-weight:700; color:var(--ink3); margin-left:6px; border:1px solid var(--glass-border); padding:2px 6px; border-radius:10px;">W</span>' : '';
-    return `<tr onclick="window.switchView('subject', ${s.id})"><td>${s.name}${wTag}</td><td class="grade-letter" style="font-family: var(--mono);">${scoreStr}</td><td><span class="tag ${g.letter}">${g.letter}</span></td></tr>`;
+  const goal = appData.gpaTarget || 3.0;
+
+  // Match the existing target planner's locked-score and remaining-credit rules.
+  let completedCredits = 0, completedPoints = 0, remainingCredits = 0, remainingCount = 0;
+  subjects.forEach(s => {
+    const result = calcSubject(s), grade = scoreToGrade(result.score, s), credits = parseFloat(s.credits) || 0;
+    if (s.quickMode && s.quickGrade === 'W') return;
+    const assessed = (s.quickMode && s.quickGrade) || (!s.quickMode && (s.categories || []).some(c => c.items.some(i => i.locked && i.score !== '')));
+    if (assessed && grade.gp !== null && grade.gp !== undefined) {
+      completedCredits += credits;
+      completedPoints += grade.gp * credits;
+    } else {
+      remainingCredits += credits;
+      remainingCount++;
+    }
+  });
+  const required = remainingCredits ? Math.max(0, (goal * (completedCredits + remainingCredits) - completedPoints) / remainingCredits) : null;
+  const isReachable = required === null || required <= 4;
+  const current = completedCredits ? completedPoints / completedCredits : null;
+  const goalMessage = !subjects.length
+    ? 'เพิ่มวิชาแรกเพื่อเริ่มวางแผนเกรดเป้าหมาย'
+    : required === null
+      ? (current !== null && current >= goal ? 'ถึงเป้าหมายแล้วในเทอมนี้' : 'ประเมินครบทุกวิชาแล้ว')
+      : isReachable
+        ? `ต้องทำ GP เฉลี่ย ${required.toFixed(2)} ใน ${remainingCount} วิชาที่เหลือ`
+        : 'เป้าหมายนี้ต้องใช้ GP มากกว่า 4.00 ในวิชาที่เหลือ';
+
+  const courseRows = subjects.map((s, index) => {
+    const result = calcSubject(s), grade = scoreToGrade(result.score, s);
+    const score = s.quickMode ? (s.quickGrade || '–') : result.score.toFixed(1);
+    return `<button class="dashboard-course" type="button" onclick="window.switchView('subject', ${s.id})" aria-label="เปิดวิชา ${s.name}">
+      <span class="course-index">${String(index + 1).padStart(2, '0')}</span>
+      <span class="course-name">${s.name}<small>${s.credits} หน่วยกิต</small></span>
+      <span class="course-score grade-letter">${score}</span>
+      <span class="course-grade tag ${grade.letter}">${grade.letter}</span>
+      <span class="course-arrow" aria-hidden="true">↗</span>
+    </button>`;
+  }).join('');
+
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const deadlines = getAllDeadlines().filter(d => new Date(d.dl) >= today).slice(0, 3);
+  const deadlineRows = deadlines.map(d => {
+    const date = new Date(d.dl);
+    const label = Number.isNaN(date.getTime()) ? d.dl : date.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
+    return `<button class="dashboard-deadline" type="button" onclick="window.switchView('subject', ${d.sId})">
+      <span class="deadline-date">${label}</span><span class="deadline-detail"><strong>${d.item}</strong><small>${d.subj}</small></span><span aria-hidden="true">↗</span>
+    </button>`;
   }).join('');
 
   document.getElementById('view-dashboard').innerHTML = `
-    <div class="bento-card col-6 ani" style="background: var(--accent-light);">
-      <div class="label">GPA เทอมนี้</div>
-      <div class="stat-value grade-letter" style="color: var(--accent); font-size: 72px; letter-spacing: -3px;">${termR.gpa !== null ? termR.gpa.toFixed(2) : '0.00'}</div>
-      <div class="stat-sub">${termR.credits} หน่วยกิต</div>
-    </div>
-    <div class="bento-card col-3 ani" style="animation-delay: 0.1s; cursor: pointer; background: var(--green-light);" onclick="window.switchView('analytics')">
-      <div class="label">GPA สะสม</div>
-      <div class="stat-value grade-letter" style="color: var(--green); font-size: 44px; letter-spacing: -1.5px;">${cum.gpa !== null ? cum.gpa.toFixed(2) : '-'}</div>
-      <div class="stat-sub">${cum.credits} หน่วยกิตรวม</div>
-    </div>
-    <div class="bento-card col-3 ani" style="animation-delay: 0.15s; cursor: pointer; background: var(--purple-light);" onclick="window.switchView('subjects')">
-      <div class="label">จำนวนวิชา</div>
-      <div class="stat-value" style="color: var(--purple); font-size: 44px; letter-spacing: -1.5px;">${subjects.length}</div>
-      <div class="stat-sub">ในเทอมนี้</div>
-    </div>
-    <div class="bento-card col-6 ani hoverable" style="animation-delay: 0.2s; padding: 0;">
-      <div class="label" style="padding: 24px 24px 0; margin-bottom: 0; display:flex; align-items:center; gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>รายวิชาล่าสุด</div>
-      ${subjects.length ? `<div class="table-container" style="padding: 12px;"><table class="bento-table"><thead><tr><th>วิชา</th><th>คะแนน</th><th>เกรด</th></tr></thead><tbody>${trs}</tbody></table></div>` : emptyStateHTML('book', 'เทอมนี้ยังว่างอยู่เลย', 'เพิ่มวิชาแรกแล้วเริ่มติดตามคะแนนกันเลย', `<button class="btn btn-accent" onclick="document.getElementById('btn-add-subject').click(); window.switchView('subjects');">เพิ่มวิชาแรก</button>`)}
-    </div>
-    <div class="bento-card col-6 ani" style="animation-delay: 0.25s;">
-      <div class="label">แนวโน้ม GPA</div>
-      <div style="height: 240px; width: 100%; position: relative; margin-top: 12px;"><canvas id="chart-dashboard-trend"></canvas></div>
-    </div>
+    <section class="dashboard-goal ani" aria-label="สรุปเป้าหมายเกรด">
+      <div class="goal-copy"><div class="goal-overline">เป้าหมาย GPA · ${getTerm().name}</div>
+        <div class="goal-number grade-letter">${goal.toFixed(2)}</div>
+        <p class="goal-message grade-letter ${isReachable ? '' : 'goal-alert'}">${goalMessage}</p>
+        <button class="goal-action" type="button" onclick="window.switchView('targets')">วางแผนให้ถึงเป้าหมาย <span aria-hidden="true">↗</span></button>
+      </div>
+      <div class="goal-aside"><div class="goal-aside-label">ผลที่ประเมินแล้ว</div><div class="goal-current grade-letter">${current === null ? '–' : current.toFixed(2)}</div><div class="goal-aside-foot">${completedCredits} จาก ${completedCredits + remainingCredits} หน่วยกิต</div><div class="goal-rule"></div><div class="goal-aside-label">GPA เทอมนี้</div><div class="goal-term grade-letter">${termR.gpa === null ? '–' : termR.gpa.toFixed(2)}</div></div>
+    </section>
+    <section class="dashboard-index ani" aria-label="รายวิชาในเทอมนี้">
+      <div class="dashboard-section-head"><h2>รายวิชาในเทอมนี้</h2><button type="button" class="text-link" onclick="window.switchView('subjects')">ดูรายวิชาทั้งหมด ↗</button></div>
+      ${subjects.length ? `<div class="dashboard-courses">${courseRows}</div>` : emptyStateHTML('book', 'ยังไม่มีรายวิชา', 'เพิ่มวิชาแรกเพื่อเริ่มวางแผนเป้าหมาย', `<button class="btn btn-accent" onclick="window.switchView('subjects'); document.getElementById('btn-add-subject').click();">เพิ่มรายวิชา</button>`)}
+    </section>
+    <section class="dashboard-side ani" aria-label="กำหนดการใกล้ถึง">
+      <div class="dashboard-section-head"><h2>กำหนดการถัดไป</h2></div>
+      ${deadlines.length ? `<div class="dashboard-deadlines">${deadlineRows}</div>` : '<p class="dashboard-empty">ยังไม่มีกำหนดการถัดไป</p>'}
+      <button type="button" class="text-link" onclick="window.switchView('planner')">เปิดปฏิทิน ↗</button>
+    </section>
+    <section class="dashboard-history ani" aria-label="ภาพรวมผลการเรียน">
+      <div class="dashboard-section-head"><h2>ภาพรวมผลการเรียน</h2><button type="button" class="text-link" onclick="window.switchView('analytics')">ดูการวิเคราะห์ ↗</button></div>
+      <div class="history-content"><div class="history-stat"><span>GPA สะสม</span><strong class="grade-letter">${cum.gpa === null ? '–' : cum.gpa.toFixed(2)}</strong><small>${cum.credits} หน่วยกิตรวม</small></div><div class="history-chart"><canvas id="chart-dashboard-trend" aria-label="แนวโน้ม GPA รายเทอม"></canvas></div></div>
+    </section>
   `;
-  
+
   const ctx = document.getElementById('chart-dashboard-trend');
   if (ctx) {
     if (chartInstances.dashTrend) chartInstances.dashTrend.destroy();
     const labels = appData.terms.map(t => t.name);
     const data = appData.terms.map(t => { const r = calcTermGPA(t); return r.gpa !== null ? parseFloat(r.gpa.toFixed(2)) : null; });
+    if (!data.some(value => value !== null)) {
+      ctx.parentElement.innerHTML = '<p class="dashboard-empty">เมื่อมีผลการเรียน กราฟจะแสดงแนวโน้มที่นี่</p>';
+      return;
+    }
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const textColor = chartTextColor(isDark);
-    chartInstances.dashTrend = new Chart(ctx, { type: 'line', data: { labels, datasets: [{ label: 'GPA', data, borderColor: isDark ? '#5e5ce6' : '#5856d6', backgroundColor: isDark ? 'rgba(94,92,230,0.12)' : 'rgba(88,86,214,0.08)', borderWidth: 3, tension: 0.4, fill: true, pointBackgroundColor: isDark?'#5e5ce6':'#5856d6', pointBorderColor: '#fff', pointRadius: 4, pointBorderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 4, border: {display: false}, grid: { color: 'var(--chart-grid)' }, ticks: { color: textColor, font: {family: "'DM Mono', monospace"} } }, x: { border: {display: false}, grid: { display: false }, ticks: { color: textColor, font: {family: "-apple-system, BlinkMacSystemFont, sans-serif", weight: 600} } } }, plugins: { legend: { display: false }, tooltip: chartTooltip(isDark) } } });
+    chartInstances.dashTrend = new Chart(ctx, { type: 'line', data: { labels, datasets: [{ label: 'GPA', data, borderColor: isDark ? '#83d9ab' : '#116b67', backgroundColor: isDark ? 'rgba(131,217,171,.12)' : 'rgba(17,107,103,.08)', borderWidth: 2, tension: 0.35, fill: true, pointBackgroundColor: isDark ? '#83d9ab' : '#116b67', pointBorderColor: '#fff', pointRadius: 4, pointBorderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 4, border: { display: false }, grid: { color: 'var(--chart-grid)' }, ticks: { color: textColor, font: { family: 'Kanit' } } }, x: { border: { display: false }, grid: { display: false }, ticks: { color: textColor, font: { family: 'Kanit', weight: 600 } } } }, plugins: { legend: { display: false }, tooltip: chartTooltip(isDark) } } });
   }
 };
 
@@ -3858,13 +3980,13 @@ const renderTargetView = () => {
         const prog = reqScore ? Math.min(100, (r.score / reqScore) * 100) : 0;
         const c = GRADE_COLORS[reqGrade] || 'var(--ink)';
         return `
-          <div class="bento-card hoverable" style="padding: 20px; cursor: pointer;" onclick="window.switchView('subject', ${s.id})">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-              <div><div style="font-weight: 800; font-size: 18px;">${s.name}</div><div style="font-size: 13px; color: var(--ink3); font-family: var(--mono); font-weight: 500;">${s.credits} cr · ตอนนี้ <span class="grade-letter">${curScoreStr}</span></div></div>
-              <div style="text-align: right;"><div style="font-size: 11px; color: var(--ink3); text-transform: uppercase; font-weight: 700;">เป้าหมาย</div><div class="grade-letter" style="font-family: var(--mono); font-size: 28px; font-weight: 800; color: ${c}; line-height: 1;">${reqGrade}</div></div>
-            </div>
-            ${reqScore ? `<div class="progress-bar"><div class="progress-fill animate-in grade-letter" data-width="${prog}" style="width: 0%; background: ${prog >= 100 ? 'var(--green)' : c};"></div></div><div style="font-size: 12px; color: var(--ink3); margin-top: 8px; text-align: right; font-family: var(--mono); font-weight: 600;"><span class="grade-letter">${r.score.toFixed(1)} / ${reqScore} (${prog.toFixed(0)}%)</span></div>` : ''}
-          </div>
+          <button type="button" class="bento-card hoverable target-course" onclick="window.switchView('subject', ${s.id})" aria-label="เปิดวิชา ${s.name} เป้าหมาย ${reqGrade}">
+            <span class="target-course-head">
+              <span><strong>${s.name}</strong><small>${s.credits} cr · ตอนนี้ <span class="grade-letter">${curScoreStr}</span></small></span>
+              <span class="target-course-grade"><small>เป้าหมาย</small><strong class="grade-letter" style="color: ${c};">${reqGrade}</strong></span>
+            </span>
+            ${reqScore ? `<span class="progress-bar"><span class="progress-fill animate-in grade-letter" data-width="${prog}" style="width: 0%; background: ${prog >= 100 ? 'var(--green)' : c};"></span></span><span class="target-course-foot grade-letter">${r.score.toFixed(1)} / ${reqScore} (${prog.toFixed(0)}%)</span>` : ''}
+          </button>
         `;
       }).join('')}
     </div>
@@ -4082,7 +4204,7 @@ const renderAnalytics = () => {
             grid: { display: false },
             ticks: { 
               color: textColor,
-              font: { family: 'var(--mono)', weight: '800', size: 16 }
+              font: { family: 'Kanit', weight: '800', size: 16 }
             }
           }
         },
@@ -4111,7 +4233,7 @@ const renderAnalytics = () => {
     const termGPAs = appData.terms.map(t => calcTermGPA(t));
     const dataGpa = termGPAs.map(r => r.gpa !== null ? parseFloat(r.gpa.toFixed(2)) : 0);
     const dataCr = termGPAs.map(r => r.credits);
-    chartInstances.compare = new Chart(ctx, { type: 'bar', data: { labels, datasets: [{ label: 'GPA', data: dataGpa, backgroundColor: dataGpa.map(v=>v>=3.5?'#34c759':v>=3.0?'#0071e3':v>=2.0?'#ff9f0a':'#ff3b30'), borderRadius: 8 }, { label: 'Credits', data: dataCr, backgroundColor: 'var(--purple-light)', borderColor: '#af52de', borderWidth: 2, borderRadius: 8, yAxisID: 'y2' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 4, border: {display: false}, grid: { color: 'var(--chart-grid)' }, ticks: { color: textColor } }, y2: { position: 'right', border: {display: false}, grid: { display: false }, ticks: { color: textColor } }, x: { border: {display: false}, grid: { display: false }, ticks: { color: textColor, font: {family: "-apple-system, sans-serif", weight: 600} } } }, plugins: { tooltip: chartTooltip(isDark) } } });
+    chartInstances.compare = new Chart(ctx, { type: 'bar', data: { labels, datasets: [{ label: 'GPA', data: dataGpa, backgroundColor: dataGpa.map(v=>v>=3.5?'#34c759':v>=3.0?'#0071e3':v>=2.0?'#ff9f0a':'#ff3b30'), borderRadius: 8 }, { label: 'Credits', data: dataCr, backgroundColor: 'var(--purple-light)', borderColor: '#af52de', borderWidth: 2, borderRadius: 8, yAxisID: 'y2' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 4, border: {display: false}, grid: { color: 'var(--chart-grid)' }, ticks: { color: textColor } }, y2: { position: 'right', border: {display: false}, grid: { display: false }, ticks: { color: textColor } }, x: { border: {display: false}, grid: { display: false }, ticks: { color: textColor, font: {family: 'Kanit', weight: 600} } } }, plugins: { tooltip: chartTooltip(isDark) } } });
   }
   
   // สถิติเพิ่มเติม - ข้อมูลที่เป็นประโยชน์
@@ -4202,7 +4324,7 @@ document.getElementById('btn-export-pdf')?.addEventListener('click', async () =>
   const cum = calcCumGPA();
   
   // ดึงข้อมูลโปรไฟล์
-  const profilePic = appData.userProfilePic || document.getElementById('profile-img')?.src || "https://lh3.googleusercontent.com/d/1JScnXLmRdBmx7TKJUDdVqTPx_iHXo6b-";
+  const profilePic = appData.userProfilePic || document.getElementById('profile-img')?.src || "icon-192.png";
   const profileName = document.getElementById('profile-name')?.textContent || 'ผู้ใช้งาน';
   const profileEmail = document.getElementById('profile-email')?.textContent || 'Local Mode';
   
@@ -4235,14 +4357,14 @@ document.getElementById('btn-export-pdf')?.addEventListener('click', async () =>
   pdfWrap.style.opacity = '1';
   
   pdfWrap.innerHTML = `
-    <div style="font-family:'Prompt',sans-serif; color:#111; background:white; padding:40px; min-height:297mm; width:210mm;">
+    <div style="font-family:'Kanit',sans-serif; color:#111; background:white; padding:40px; min-height:297mm; width:210mm;">
       <!-- Header with Profile -->
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:30px; padding-bottom:20px; border-bottom:2px solid #e0e0e0;">
         <div style="display:flex; align-items:center; gap:16px;">
           <img src="${profilePic}" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:3px solid #0071e3;" crossorigin="anonymous">
           <div>
             <div style="font-size:18px; font-weight:800; color:#111; margin-bottom:4px;">${profileName}</div>
-            <div style="font-size:12px; color:#666; font-family:monospace;">${profileEmail}</div>
+            <div style="font-size:12px; color:#666; font-family:'Kanit',sans-serif;">${profileEmail}</div>
           </div>
         </div>
         <div style="text-align:right;">
@@ -4338,6 +4460,8 @@ document.getElementById('btn-export-pdf')?.addEventListener('click', async () =>
     }
   }
   
+  // Wait until Kanit is loaded before rasterizing the report PDF.
+  await document.fonts.ready;
   // รอให้ DOM render เสร็จ
   await new Promise(resolve => setTimeout(resolve, 400));
   
@@ -4433,22 +4557,22 @@ const checkShareLink = () => {
     
     const rows = data.s.map(s => {
       const gradeDisplay = hideGrades ? '<span style="color:#888; display:inline-flex; align-items:center; gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> ซ่อน</span>' : s.gr;
-      return `<tr><td style="padding:16px; border-bottom:1px solid var(--glass-border, rgba(0,0,0,0.06)); font-weight:600;">${s.n}</td><td style="padding:16px; border-bottom:1px solid var(--glass-border, rgba(0,0,0,0.06)); font-family:monospace; font-size:16px; text-align:center;">${s.c}</td><td style="padding:16px; border-bottom:1px solid var(--glass-border, rgba(0,0,0,0.06)); font-weight:800; font-size:18px; text-align:center;">${gradeDisplay}</td></tr>`;
+      return `<tr><td style="padding:16px; border-bottom:1px solid var(--glass-border, rgba(0,0,0,0.06)); font-weight:600;">${s.n}</td><td style="padding:16px; border-bottom:1px solid var(--glass-border, rgba(0,0,0,0.06)); font-family:'Kanit',sans-serif; font-size:16px; text-align:center;">${s.c}</td><td style="padding:16px; border-bottom:1px solid var(--glass-border, rgba(0,0,0,0.06)); font-weight:800; font-size:18px; text-align:center;">${gradeDisplay}</td></tr>`;
     }).join('');
     
     const gpaDisplay = hideGrades ? '<span style="color:#888; display:inline-flex; align-items:center; gap:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> ซ่อน</span>' : `<strong style="color:#0071e3; font-size:28px;">${data.g?.gpa?.toFixed(2)||'-'}</strong>`;
     
     document.body.innerHTML = `
-      <div style="font-family:-apple-system, BlinkMacSystemFont, 'Prompt', sans-serif; padding:40px 20px; max-width:600px; margin:0 auto; color:#111; min-height:100vh; display:flex; align-items:center;">
+      <div style="font-family:'Kanit', sans-serif; padding:40px 20px; max-width:600px; margin:0 auto; color:#111; min-height:100vh; display:flex; align-items:center;">
         <div style="background:rgba(255,255,255,0.9); backdrop-filter:blur(40px); border-radius:32px; padding:40px; box-shadow:0 32px 64px rgba(0,0,0,0.1); width:100%;">
           <div style="width:72px;height:72px;margin-bottom:24px;background:rgba(88,86,214,0.1);border-radius:20px;display:flex;align-items:center;justify-content:center;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#5856d6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
           <h2 style="font-size:32px; font-weight:800; margin-bottom:12px; letter-spacing:-1px;">${data.t}</h2>
-          <div style="font-family:monospace; font-size:18px; color:#555; margin-bottom:40px; font-weight:600;">GPA: ${gpaDisplay} · ${hideGrades ? data.s.length : (data.g?.credits||0)} ${hideGrades ? 'วิชา' : 'Credits'}</div>
+          <div style="font-family:'Kanit',sans-serif; font-size:18px; color:#555; margin-bottom:40px; font-weight:600;">GPA: ${gpaDisplay} · ${hideGrades ? data.s.length : (data.g?.credits||0)} ${hideGrades ? 'วิชา' : 'Credits'}</div>
           <table style="width:100%; border-collapse:collapse;">
             <thead><tr><th style="padding:12px; border-bottom:2px solid rgba(0,0,0,0.1); color:#888; text-align:left;">วิชา</th><th style="padding:12px; border-bottom:2px solid rgba(0,0,0,0.1); color:#888;">Cr</th><th style="padding:12px; border-bottom:2px solid rgba(0,0,0,0.1); color:#888;">เกรด</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
-          <button style="margin-top:48px; width:100%; padding:18px; border-radius:100px; background:#0071e3; color:#fff; border:none; font-family:'Prompt', sans-serif; font-weight:700; font-size:18px; cursor:pointer;" onclick="window.location.href=window.location.href.split('#')[0]">เข้าสู่ Unigrade Tracker</button>
+          <button style="margin-top:48px; width:100%; padding:18px; border-radius:100px; background:#0071e3; color:#fff; border:none; font-family:'Kanit', sans-serif; font-weight:700; font-size:18px; cursor:pointer;" onclick="window.location.href=window.location.href.split('#')[0]">เข้าสู่ Unigrade Tracker</button>
         </div>
       </div>
     `; document.body.style.background = 'linear-gradient(180deg, #ffffff 0%, #f0f4f8 100%)';

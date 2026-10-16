@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">UniGrade</title>
+  <rect width="512" height="512"  fill="#146B56"/>
+  <path d="M94 168c54-17 106-10 162 27v192c-51-35-105-47-162-31V168Z" fill="#FFFFFF"/>
+  <path d="M418 168c-54-17-106-10-162 27v192c51-35 105-47 162-31V168Z" fill="#B7E9CA"/>
+  <path d="M256 195v192" fill="none" stroke="#146B56" stroke-width="14" stroke-linecap="round"/>
+  <path d="M111 387c53-12 100 0 145 30 45-30 92-42 145-30" fill="none" stroke="#FFFFFF" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m314 237 22-22 22 22" fill="none" stroke="#146B56" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M336 217v78" fill="none" stroke="#146B56" stroke-width="17" stroke-linecap="round"/>
+</svg>
+
