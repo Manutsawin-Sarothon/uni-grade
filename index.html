@@ -3049,14 +3049,28 @@ if (auth) {
   initAuth();
 } else { loadData(); isAppStarted = true; triggerWelcomeAndStart(); }
 
+const getAuthErrorMessage = (error, fallback = 'เข้าสู่ระบบล้มเหลว กรุณาลองใหม่') => ({
+  'auth/popup-blocked': 'เบราว์เซอร์บล็อกหน้าต่างเข้าสู่ระบบ กรุณาอนุญาตป๊อปอัปแล้วลองใหม่',
+  'auth/popup-closed-by-user': 'ยกเลิกการเข้าสู่ระบบแล้ว',
+  'auth/unauthorized-domain': 'โดเมนนี้ยังไม่ได้รับอนุญาตให้เข้าสู่ระบบ',
+  'auth/operation-not-allowed': 'ยังไม่ได้เปิดใช้งาน Google Sign-In',
+  'auth/network-request-failed': 'เชื่อมต่อ Google ไม่สำเร็จ กรุณาตรวจอินเทอร์เน็ตแล้วลองใหม่',
+  'auth/web-storage-unsupported': 'เบราว์เซอร์นี้ปิดการจัดเก็บข้อมูลที่จำเป็นสำหรับการเข้าสู่ระบบ'
+})[error?.code] || fallback;
+
 document.getElementById('btn-login-google')?.addEventListener('click', async () => {
   if (!auth) { toast('Firebase ไม่พร้อมใช้งาน', true); return; }
   try { 
-    await signInWithPopup(auth, new GoogleAuthProvider()); 
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    await signInWithPopup(auth, provider);
     localStorage.setItem('guest_mode', 'false');
     // ล้างข้อมูล Local เพื่อป้องกันเขียนทับข้อมูลบน Firebase
     localStorage.removeItem('st_data');
-  } catch (e) { toast('เข้าสู่ระบบล้มเหลว', true); }
+  } catch (e) {
+    console.error('Google sign-in failed:', e?.code || e);
+    toast(getAuthErrorMessage(e), true);
+  }
 });
 
 document.getElementById('btn-login-guest')?.addEventListener('click', () => {
@@ -3089,7 +3103,8 @@ document.getElementById('btn-sync-google')?.addEventListener('click', async () =
     renderProfile(result.user);
     loadData(); // Re-establish listener และโหลดข้อมูลจาก Firebase
   } catch (e) {
-    toast('การเชื่อมต่อล้มเหลว', true);
+    console.error('Google sync sign-in failed:', e?.code || e);
+    toast(getAuthErrorMessage(e, 'การเชื่อมต่อล้มเหลว กรุณาลองใหม่'), true);
   }
 });
 
