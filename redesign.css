@@ -129,7 +129,6 @@ body { background: var(--bg-bottom); }
   .apple-dock, [data-theme="dark"] .apple-dock { flex-direction: row; align-items: center; justify-content: space-around; height: auto; gap: 2px; }
   .dock-item { width: auto; flex: 1 1 0; min-width: 0; height: 50px; flex-direction: column; gap: 3px; justify-content: center; padding: 4px 2px; border-radius: 9px; font-size: 9px; }
   .dock-item .dock-icon { width: 19px; height: 19px; }
-  .dock-divider, #dock-hide-grades { display: none; }
   .apple-dock .dock-item:last-child { margin-top: 0; }
   .login-intro { width: 45%; }
   #login-view .login-card { width: 55%; }
@@ -393,16 +392,6 @@ input, textarea { caret-color: var(--accent); }
   font-weight: 600;
 }
 
-button.cal-day {
-  width: 100%;
-  color: inherit;
-  font: inherit;
-  text-align: left;
-  appearance: none;
-}
-
-button.cal-day:focus-visible { outline: 3px solid var(--accent-light); outline-offset: 2px; }
-
 .modal-overlay[aria-hidden="true"] { pointer-events: none; }
 
 button, [role="button"], input, select, textarea { scroll-margin: 12px; }
@@ -447,4 +436,34 @@ button, [role="button"], input, select, textarea { scroll-margin: 12px; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Five-item navigation with Overview as the primary middle action. */
+.apple-dock .dock-item:last-child { margin-top: 0; }
+.dock-item.dock-primary,
+.dock-item.dock-primary.active {
+  min-height: 58px;
+  color: #fff;
+  background: #146b56;
+  border-color: #146b56;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(20, 107, 86, .22);
+}
+.dock-item.dock-primary:hover { background: #0f5947; }
+.dock-item.dock-primary .dock-icon { width: 24px; height: 24px; }
+
+@media (max-width: 900px) {
+  .apple-dock { overflow: visible; }
+  .dock-item.dock-primary,
+  .dock-item.dock-primary.active {
+    flex: 0 0 64px;
+    width: 64px;
+    height: 64px;
+    min-height: 64px;
+    margin-top: -22px;
+    border-radius: 20px;
+    box-shadow: 0 12px 28px rgba(20, 107, 86, .3);
+  }
+  .dock-item.dock-primary .dock-icon { width: 25px; height: 25px; }
+  .dock-item.dock-primary .nav-label { font-weight: 800; }
 }
