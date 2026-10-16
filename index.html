@@ -328,7 +328,7 @@ button { cursor: pointer; user-select: none; }
   .stat-value { font-size: 36px; }
 }
 
-/* Subject detail stat cards: 2×2 on mobile */
+/* Subject detail stat cards: 2x2 on mobile */
 @media (max-width: 768px) {
   #view-subject .bento-card.col-3 { grid-column: span 6; }
 }
@@ -1753,7 +1753,7 @@ html, body, body *, body *::before, body *::after {
 
     <div style="display: flex; gap: 10px;">
       <button class="btn btn-outline" id="btn-onboard-skip" style="flex: 1; font-size: 13px;">ข้าม</button>
-      <button class="btn btn-accent" id="btn-onboard-next" style="flex: 2;">ถัดไป →</button>
+      <button class="btn btn-accent" id="btn-onboard-next" style="flex: 2;"><span id="onboard-next-label">ถัดไป</span><svg class="ui-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button>
     </div>
   </div>
 </div>
@@ -2085,7 +2085,7 @@ html, body, body *, body *::before, body *::after {
   
   <!-- Main Content Area -->
   <main class="main-wrap" id="main-wrap">
-    <div class="page-heading no-print"><div><div class="page-eyebrow"><span id="page-section">ภาพรวม</span></div><h1 id="page-title">แผนเกรดเทอมนี้</h1><p id="page-description">เห็นระยะห่างจากเป้าหมายและเลือกสิ่งที่ต้องทำต่อ</p></div><button class="heading-action" type="button" onclick="window.switchView('subjects'); document.getElementById('btn-add-subject').click();"><span aria-hidden="true">＋</span> เพิ่มรายวิชา</button></div>
+    <div class="page-heading no-print"><div><div class="page-eyebrow"><span id="page-section">ภาพรวม</span></div><h1 id="page-title">แผนเกรดเทอมนี้</h1><p id="page-description">เห็นระยะห่างจากเป้าหมายและเลือกสิ่งที่ต้องทำต่อ</p></div><button class="heading-action" type="button" onclick="window.switchView('subjects'); document.getElementById('btn-add-subject').click();"><svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> เพิ่มรายวิชา</button></div>
 
     <!-- Hide Grades Indicator -->
     <div id="hide-grades-indicator" style="position: fixed; top: 90px; right: 20px; z-index: 700; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 100px; padding: 8px 16px; box-shadow: var(--glass-shadow); display: none; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--ink2);">
@@ -2123,7 +2123,7 @@ html, body, body *, body *::before, body *::after {
       <!-- Back Button -->
       <div class="col-12" style="margin-bottom: -10px;">
         <button class="btn btn-outline" id="btn-back-subject" style="border: none; background: var(--glass-bg); padding: 8px 16px;">
-          <span style="font-size: 20px; font-weight: bold; margin-right: 4px; line-height: 1;">‹</span> กลับ
+          <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg> กลับ
         </button>
       </div>
       
@@ -2246,9 +2246,9 @@ html, body, body *, body *::before, body *::after {
     <div id="view-planner" class="bento-grid hide-on-print" style="display: none;">
       <div class="bento-card col-8 ani">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <button class="btn-icon" id="btn-cal-prev" aria-label="เดือนก่อนหน้า" style="width:44px; height:44px;">‹</button>
+          <button class="btn-icon" id="btn-cal-prev" aria-label="เดือนก่อนหน้า" style="width:44px; height:44px;"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
           <div class="title-md" id="cal-month-label" style="margin: 0; font-size:18px;">Month Year</div>
-          <button class="btn-icon" id="btn-cal-next" aria-label="เดือนถัดไป" style="width:44px; height:44px;">›</button>
+          <button class="btn-icon" id="btn-cal-next" aria-label="เดือนถัดไป" style="width:44px; height:44px;"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
         </div>
         <div class="cal-grid" id="cal-header-row"></div>
         <div class="cal-grid" id="cal-days-grid"></div>
@@ -2361,6 +2361,11 @@ const GP = { 'A':4.0, 'B+':3.5, 'B':3.0, 'C+':2.5, 'C':2.0, 'D+':1.5, 'D':1.0, '
 const DEFAULT_BOUNDARY = { 'A':80, 'B+':75, 'B':70, 'C+':65, 'C':60, 'D+':55, 'D':50, 'F':0 };
 const GRADES = ['A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F'];
 const GRADE_COLORS = {'A':'var(--green)','B+':'#34c759','B':'var(--accent)','C+':'#5ac8fa','C':'var(--orange)','D+':'#ffcc00','D':'#ff3b30','F':'var(--red)','W':'var(--ink3)'};
+const UI_ICONS = {
+  arrowUpRight: '<svg class="ui-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>',
+  close: '<svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>',
+  moreVertical: '<svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg>'
+};
 
 // Helper for dynamic boundaries
 const getBoundaries = (s) => (s && s.customBoundaries) ? s.customBoundaries : DEFAULT_BOUNDARY;
@@ -2620,7 +2625,7 @@ const showOnboarding = () => {
   document.getElementById('_iosbadge3').innerHTML = `${_stepBadge(3)}<span>กด <strong>เพิ่ม</strong> — แอปจะปรากฏบน Home Screen ทันที</span>`;
 
   // Populate Android steps
-  document.getElementById('_andbadge1').innerHTML = `${_stepBadge(1)}<span>กดเมนู <strong>⋮</strong> มุมขวาบนของ Chrome</span>`;
+  document.getElementById('_andbadge1').innerHTML = `${_stepBadge(1)}<span>กดเมนู <strong class="inline-icon-label">${UI_ICONS.moreVertical}<span class="sr-only">เพิ่มเติม</span></strong> มุมขวาบนของ Chrome</span>`;
   document.getElementById('_andbadge2').innerHTML = `${_stepBadge(2)}<span>เลือก <strong>"เพิ่มในหน้าจอหลัก"</strong> หรือ <strong>"ติดตั้งแอป"</strong></span>`;
   document.getElementById('_andbadge3').innerHTML = `${_stepBadge(3)}<span>กด <strong>ติดตั้ง</strong> — แอปจะเปิดแบบ fullscreen ไม่มี browser bar</span>`;
 
@@ -2680,8 +2685,8 @@ const dismissOnboard = () => {
 };
 
 const updateOnboardStep = (prevStep = null) => {
-  const nextBtn = document.getElementById('btn-onboard-next');
-  if (nextBtn) nextBtn.textContent = onboardStep === ONBOARD_TOTAL ? 'เริ่มเลย →' : 'ถัดไป →';
+  const nextLabel = document.getElementById('onboard-next-label');
+  if (nextLabel) nextLabel.textContent = onboardStep === ONBOARD_TOTAL ? 'เริ่มเลย' : 'ถัดไป';
 
   if (prevStep !== null && prevStep !== onboardStep) {
     const outEl = document.getElementById(`onboard-step-${prevStep}`);
@@ -2902,7 +2907,7 @@ const initAuth = async () => {
 const showLoginButtons = () => { document.getElementById('login-loading').style.display = 'none'; document.getElementById('login-buttons').style.display = 'block'; };
 
 const showLoginView = () => {
-  // ถ้ายังไม่เคย onboard → แสดง onboarding ก่อน แล้วค่อยไป login
+  // ถ้ายังไม่เคย onboard ให้แสดง onboarding ก่อน แล้วค่อยไป login
   if (!localStorage.getItem(ONBOARD_KEY)) {
     _pendingLoginAfterOnboard = true;
     showOnboarding();
@@ -3502,7 +3507,7 @@ const renderApp = () => {
   if (renderApp._lastTermSig !== termSig) {
     renderApp._lastTermSig = termSig;
     const menu = document.getElementById('term-list');
-    menu.innerHTML = '<div class="term-menu-head"><div><h2 id="term-menu-title">เปลี่ยนเทอม</h2><p>เลือกเทอมที่ต้องการดูผลการเรียน</p></div><button type="button" class="term-menu-close" aria-label="ปิดเมนู" onclick="toggleTermDropdown(false)">×</button></div><div class="term-menu-items"></div>';
+    menu.innerHTML = `<div class="term-menu-head"><div><h2 id="term-menu-title">เปลี่ยนเทอม</h2><p>เลือกเทอมที่ต้องการดูผลการเรียน</p></div><button type="button" class="term-menu-close" aria-label="ปิดเมนู" onclick="toggleTermDropdown(false)">${UI_ICONS.close}</button></div><div class="term-menu-items"></div>`;
     const items = menu.querySelector('.term-menu-items');
     appData.terms.forEach((term, index) => {
       const item = document.createElement('button');
@@ -3523,7 +3528,8 @@ const renderApp = () => {
       detail.append(name, count);
       const state = document.createElement('span');
       state.className = 'term-state';
-      state.textContent = active ? 'กำลังดู' : '↗';
+      if (active) state.textContent = 'กำลังดู';
+      else state.innerHTML = UI_ICONS.arrowUpRight;
       item.append(number, detail, state);
       item.addEventListener('click', () => {
         if (term.id === currentTermId) { toggleTermDropdown(false); return; }
@@ -3580,7 +3586,7 @@ const renderDashboard = () => {
       <span class="course-name">${escapeHTML(s.name)}<small>${safeNumber(s.credits, 0, 20)} หน่วยกิต</small></span>
       <span class="course-score grade-letter">${score}</span>
       <span class="course-grade tag ${grade.letter}">${grade.letter}</span>
-      <span class="course-arrow" aria-hidden="true">↗</span>
+      <span class="course-arrow" aria-hidden="true">${UI_ICONS.arrowUpRight}</span>
     </button>`;
   }).join('');
 
@@ -3590,7 +3596,7 @@ const renderDashboard = () => {
     const date = new Date(d.dl);
     const label = Number.isNaN(date.getTime()) ? d.dl : date.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
     return `<button class="dashboard-deadline" type="button" onclick="window.switchView('subject', ${d.sId})">
-      <span class="deadline-date">${label}</span><span class="deadline-detail"><strong>${escapeHTML(d.item)}</strong><small>${escapeHTML(d.subj)}</small></span><span aria-hidden="true">↗</span>
+      <span class="deadline-date">${label}</span><span class="deadline-detail"><strong>${escapeHTML(d.item)}</strong><small>${escapeHTML(d.subj)}</small></span><span aria-hidden="true">${UI_ICONS.arrowUpRight}</span>
     </button>`;
   }).join('');
 
@@ -3599,21 +3605,21 @@ const renderDashboard = () => {
       <div class="goal-copy"><div class="goal-overline">เป้าหมาย GPA · ${escapeHTML(getTerm().name)}</div>
         <div class="goal-number grade-letter">${goal.toFixed(2)}</div>
         <p class="goal-message grade-letter ${isReachable ? '' : 'goal-alert'}">${goalMessage}</p>
-        <button class="goal-action" type="button" onclick="window.switchView('targets')">วางแผนให้ถึงเป้าหมาย <span aria-hidden="true">↗</span></button>
+        <button class="goal-action" type="button" onclick="window.switchView('targets')">วางแผนให้ถึงเป้าหมาย <span aria-hidden="true">${UI_ICONS.arrowUpRight}</span></button>
       </div>
       <div class="goal-aside"><div class="goal-aside-label">ผลที่ประเมินแล้ว</div><div class="goal-current grade-letter">${current === null ? '–' : current.toFixed(2)}</div><div class="goal-aside-foot">${completedCredits} จาก ${completedCredits + remainingCredits} หน่วยกิต</div><div class="goal-rule"></div><div class="goal-aside-label">GPA เทอมนี้</div><div class="goal-term grade-letter">${termR.gpa === null ? '–' : termR.gpa.toFixed(2)}</div></div>
     </section>
     <section class="dashboard-index ani" aria-label="รายวิชาในเทอมนี้">
-      <div class="dashboard-section-head"><h2>รายวิชาในเทอมนี้</h2><button type="button" class="text-link" onclick="window.switchView('subjects')">ดูรายวิชาทั้งหมด ↗</button></div>
+      <div class="dashboard-section-head"><h2>รายวิชาในเทอมนี้</h2><button type="button" class="text-link" onclick="window.switchView('subjects')">ดูรายวิชาทั้งหมด ${UI_ICONS.arrowUpRight}</button></div>
       ${subjects.length ? `<div class="dashboard-courses">${courseRows}</div>` : emptyStateHTML('book', 'ยังไม่มีรายวิชา', 'เพิ่มวิชาแรกเพื่อเริ่มวางแผนเป้าหมาย', `<button class="btn btn-accent" onclick="window.switchView('subjects'); document.getElementById('btn-add-subject').click();">เพิ่มรายวิชา</button>`)}
     </section>
     <section class="dashboard-side ani" aria-label="กำหนดการใกล้ถึง">
       <div class="dashboard-section-head"><h2>กำหนดการถัดไป</h2></div>
       ${deadlines.length ? `<div class="dashboard-deadlines">${deadlineRows}</div>` : '<p class="dashboard-empty">ยังไม่มีกำหนดการถัดไป</p>'}
-      <button type="button" class="text-link" onclick="window.switchView('planner')">เปิดปฏิทิน ↗</button>
+      <button type="button" class="text-link" onclick="window.switchView('planner')">เปิดปฏิทิน ${UI_ICONS.arrowUpRight}</button>
     </section>
     <section class="dashboard-history ani" aria-label="ภาพรวมผลการเรียน">
-      <div class="dashboard-section-head"><h2>ภาพรวมผลการเรียน</h2><button type="button" class="text-link" onclick="window.switchView('analytics')">ดูการวิเคราะห์ ↗</button></div>
+      <div class="dashboard-section-head"><h2>ภาพรวมผลการเรียน</h2><button type="button" class="text-link" onclick="window.switchView('analytics')">ดูการวิเคราะห์ ${UI_ICONS.arrowUpRight}</button></div>
       <div class="history-content"><div class="history-stat"><span>GPA สะสม</span><strong class="grade-letter">${cum.gpa === null ? '–' : cum.gpa.toFixed(2)}</strong><small>${cum.credits} หน่วยกิตรวม</small></div><div class="history-chart"><canvas id="chart-dashboard-trend" aria-label="แนวโน้ม GPA รายเทอม"></canvas></div></div>
     </section>
   `;
