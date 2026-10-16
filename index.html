@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UniGrade | พื้นที่วางแผนการเรียน</title>
 <meta name="description" content="ติดตามคะแนน วางแผนเกรด และเห็นความก้าวหน้าของการเรียนในที่เดียว">
+<link rel="canonical" href="https://uni-grade-six.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="UniGrade | พื้นที่วางแผนการเรียน">
+<meta property="og:description" content="ติดตามคะแนน วางแผนเกรด และเห็นความก้าวหน้าของการเรียนในที่เดียว">
+<meta property="og:url" content="https://uni-grade-six.vercel.app/">
+<meta property="og:image" content="https://uni-grade-six.vercel.app/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
 
 <!-- iOS / PWA / Web App Manifest & Icons -->
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,7 +27,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <!-- External Libraries — defer non-critical, keep Chart.js sync for first paint -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js" defer></script>
@@ -1624,8 +1631,8 @@ html, body, body *, body *::before, body *::after {
 </div>
 
 <!-- Onboarding Overlay -->
-<div id="onboarding-overlay">
-  <div class="onboard-card">
+<div id="onboarding-overlay" hidden aria-hidden="true">
+  <div class="onboard-card" role="dialog" aria-modal="true" aria-label="แนะนำการใช้งาน UniGrade">
     <!-- Step 1: Welcome -->
     <div class="onboard-step active" id="onboard-step-1">
       <span class="onboard-icon">
@@ -1752,8 +1759,8 @@ html, body, body *, body *::before, body *::after {
 </div>
 
 <!-- Term switcher surface -->
-<div id="dropdown-overlay" onclick="toggleTermDropdown(false)" role="presentation" aria-hidden="true"></div>
-<div class="term-list" id="term-list" role="dialog" aria-modal="true" aria-labelledby="term-menu-title"></div>
+<div id="dropdown-overlay" onclick="toggleTermDropdown(false)" role="presentation" aria-hidden="true" hidden></div>
+<div class="term-list" id="term-list" role="dialog" aria-modal="true" aria-labelledby="term-menu-title" aria-hidden="true" hidden></div>
 
 <!-- Toast Container -->
 <div id="toast-container" role="status" aria-live="polite" aria-atomic="false"></div>
@@ -1765,7 +1772,7 @@ html, body, body *, body *::before, body *::after {
 <!-- ════ MODALS ════ -->
 
 <!-- Control Center Modal (Settings) -->
-<div id="settings-modal" class="modal-overlay" onclick="handleSettingsBackdrop(event)">
+<div id="settings-modal" class="modal-overlay" onclick="handleSettingsBackdrop(event)" hidden aria-hidden="true">
   <div class="settings-panel" role="dialog" aria-modal="true" aria-label="ตั้งค่า">
 
     <!-- Header -->
@@ -1784,7 +1791,7 @@ html, body, body *, body *::before, body *::after {
         <img id="modal-profile-img" src="" alt="รูปโปรไฟล์" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);flex-shrink:0;">
         <div style="overflow:hidden;flex:1;">
           <div id="modal-profile-name" style="font-size:17px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">ผู้ใช้งาน</div>
-          <div id="modal-profile-email" style="font-size:12px;color:var(--ink3);font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;">Local Mode</div>
+          <div id="modal-profile-email" style="font-size:12px;color:var(--ink3);font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;">เก็บข้อมูลในเครื่อง</div>
         </div>
       </div>
 
@@ -1846,6 +1853,7 @@ html, body, body *, body *::before, body *::after {
         <span class="settings-row-label" id="pin-text">ตั้งรหัส PIN</span>
         <svg class="settings-row-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
+      <p class="settings-help">PIN เป็นเพียงตัวล็อกหน้าจอบนอุปกรณ์นี้ ข้อมูลการเรียนไม่ได้ถูกเข้ารหัสด้วย PIN</p>
 
       <!-- ส่งออกและซิงก์ -->
       <div class="settings-section-label">ส่งออกและซิงก์</div>
@@ -1910,8 +1918,8 @@ html, body, body *, body *::before, body *::after {
 </div>
 
 <!-- Custom Generic Modal -->
-<div id="custom-modal" class="modal-overlay">
-  <div class="bento-card modal-box" style="max-width: 360px; padding: 24px; text-align: center; border-radius: var(--r-xl);">
+<div id="custom-modal" class="modal-overlay" hidden aria-hidden="true">
+  <div class="bento-card modal-box" role="dialog" aria-modal="true" aria-labelledby="cm-title" style="max-width: 360px; padding: 24px; text-align: center; border-radius: var(--r-xl);">
     <div id="cm-icon" style="width:56px;height:56px;margin:0 auto 12px;border-radius:16px;display:flex;align-items:center;justify-content:center;"></div>
     <div class="modal-title" id="cm-title">Title</div>
     <div style="font-size: 14px; color: var(--ink2); margin-bottom: 20px;" id="cm-text">Text content goes here</div>
@@ -1924,13 +1932,13 @@ html, body, body *, body *::before, body *::after {
 </div>
 
 <!-- Share Modal -->
-<div id="share-modal" class="modal-overlay">
-  <div class="bento-card modal-box" style="text-align: center; padding: 24px;">
+<div id="share-modal" class="modal-overlay" hidden aria-hidden="true">
+  <div class="bento-card modal-box" role="dialog" aria-modal="true" aria-labelledby="share-modal-title" style="text-align: center; padding: 24px;">
     <div style="width:56px;height:56px;margin:0 auto 12px;background:var(--accent-light);border-radius:16px;display:flex;align-items:center;justify-content:center;">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
     </div>
-    <div class="modal-title">แชร์ผลการเรียน</div>
-    <div style="font-size: 14px; color: var(--ink2); margin-bottom: 20px;">ลิงก์นี้ให้คนอื่นดูผลการเรียนได้ แต่แก้ไขไม่ได้</div>
+    <div class="modal-title" id="share-modal-title">แชร์ผลการเรียน</div>
+    <div style="font-size: 14px; color: var(--ink2); margin-bottom: 20px;">ทุกคนที่มีลิงก์เปิดดูได้ การบีบอัดลิงก์ไม่ใช่การเข้ารหัส โปรดเลือกเฉพาะข้อมูลที่ต้องการเปิดเผย</div>
     
     <!-- Grade Hiding Toggle -->
     <div class="toggle-wrap" style="margin-bottom: 16px; justify-content: center; background: var(--surface-subtle); border: 1px solid var(--glass-border);">
@@ -1950,12 +1958,12 @@ html, body, body *, body *::before, body *::after {
 </div>
 
 <!-- CSV Info Modal -->
-<div id="csv-modal" class="modal-overlay">
-  <div class="bento-card modal-box" style="padding: 24px;">
+<div id="csv-modal" class="modal-overlay" hidden aria-hidden="true">
+  <div class="bento-card modal-box" role="dialog" aria-modal="true" aria-labelledby="csv-modal-title" style="padding: 24px;">
     <div style="width:56px;height:56px;margin:0 auto 12px;background:var(--accent-light);border-radius:16px;display:flex;align-items:center;justify-content:center;">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
     </div>
-    <div class="modal-title" style="text-align: center;">นำเข้าวิชาจาก CSV</div>
+    <div class="modal-title" id="csv-modal-title" style="text-align: center;">นำเข้าวิชาจาก CSV</div>
     <div style="font-size: 14px; color: var(--ink2); margin-bottom: 20px;">
       <div class="code-surface" style="margin-bottom: 12px;">
         วิชา,หน่วยกิต,เกรด<br>คณิตศาสตร์,3,A<br>ฟิสิกส์,3,B+
@@ -1971,11 +1979,11 @@ html, body, body *, body *::before, body *::after {
 </div>
 
 <!-- Grade Scale Settings Modal -->
-<div id="grade-scale-modal" class="modal-overlay">
-  <div class="bento-card modal-box" style="padding: 24px; max-width: 380px;">
+<div id="grade-scale-modal" class="modal-overlay" hidden aria-hidden="true">
+  <div class="bento-card modal-box" role="dialog" aria-modal="true" aria-label="เกณฑ์ตัดเกรด" style="padding: 24px; max-width: 380px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <div class="modal-title" style="margin: 0; display: flex; align-items: center; gap: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> เกณฑ์ตัดเกรด</div>
-        <button class="btn-icon" onclick="closeModal('grade-scale-modal')" style="width: 32px; height: 32px; box-shadow: none;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <button class="btn-icon" onclick="closeModal('grade-scale-modal')" aria-label="ปิดหน้าต่างเกณฑ์ตัดเกรด" style="width: 32px; height: 32px; box-shadow: none;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
     <div style="font-size: 13px; color: var(--ink2); margin-bottom: 20px; font-weight: 500; line-height: 1.5;">กำหนดคะแนนขั้นต่ำสำหรับแต่ละเกรดในวิชานี้ หากไม่กำหนด จะใช้เกณฑ์มาตรฐาน</div>
 
@@ -1997,7 +2005,8 @@ html, body, body *, body *::before, body *::after {
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </div>
         <h1 style="font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px;">แอปถูกล็อก</h1>
-        <p style="color: var(--ink2); margin-bottom: 24px; font-size: 15px; font-weight: 600;">ใส่รหัส PIN เพื่อเข้าใช้งาน</p>
+        <p style="color: var(--ink2); margin-bottom: 8px; font-size: 15px; font-weight: 600;">ใส่รหัส PIN เพื่อปลดล็อกหน้าจอ</p>
+        <p style="color: var(--ink3); margin-bottom: 24px; font-size: 12px;">PIN นี้ไม่ใช่การเข้ารหัสข้อมูลการเรียน</p>
         <input type="password" id="pin-input" class="w-input" style="font-size: 32px; letter-spacing: 12px; text-align: center; margin-bottom: 24px; font-family: var(--mono);" inputmode="numeric" maxlength="6" placeholder="••••" aria-label="รหัส PIN" autocomplete="current-password">
         <button class="btn btn-accent" id="btn-submit-pin" style="width: 100%; padding: 16px; font-size: 16px;">เข้าใช้งาน</button>
         <button class="btn btn-outline" id="btn-logout-pin" style="width: 100%; padding: 14px; font-size: 14px; color: var(--red); border-color: transparent; margin-top: 8px; box-shadow: none;">เปลี่ยนบัญชี</button>
@@ -2035,7 +2044,7 @@ html, body, body *, body *::before, body *::after {
         เข้าสู่ระบบด้วย Google
       </button>
       <div style="text-align: center; margin-top: 20px;">
-        <a id="btn-login-guest" style="font-size: 12px; color: var(--ink3); text-decoration: none; cursor: pointer; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--ink3)'">ใช้งานแบบออฟไลน์ (ไม่ซิงก์)</a>
+        <a id="btn-login-guest" style="font-size: 12px; color: var(--ink3); text-decoration: none; cursor: pointer; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--ink3)'">เก็บข้อมูลในเครื่อง (ไม่ซิงก์)</a>
       </div>
     </div>
   </div>
@@ -2052,7 +2061,7 @@ html, body, body *, body *::before, body *::after {
         <img id="profile-img" class="profile-avatar" src="" alt="รูปโปรไฟล์" role="img">
         <div class="user-info">
           <div class="profile-name" id="profile-name">นักศึกษา</div>
-          <div class="profile-email" id="profile-email">Guest Mode</div>
+          <div class="profile-email" id="profile-email">เก็บข้อมูลในเครื่อง</div>
         </div>
       </div>
       
@@ -2133,6 +2142,8 @@ html, body, body *, body *::before, body *::after {
             </div>
           </div>
           <div class="subj-actions">
+            <button class="btn btn-accent" id="btn-save-subject" style="display:none;gap:6px;">บันทึกวิชา</button>
+            <button class="btn btn-outline" id="btn-cancel-subject" style="display:none;gap:6px;">ยกเลิก</button>
             <button class="btn btn-outline" id="btn-edit-scale" title="ตั้งค่าเกณฑ์ตัดเกรด" style="gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> เกณฑ์เกรด</button>
             <button class="btn btn-outline" id="btn-dup-subject" style="gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> ทำสำเนา</button>
             <button class="btn btn-outline danger-color" id="btn-del-subject" style="gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> ลบวิชา</button>
@@ -2235,9 +2246,9 @@ html, body, body *, body *::before, body *::after {
     <div id="view-planner" class="bento-grid hide-on-print" style="display: none;">
       <div class="bento-card col-8 ani">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <button class="btn-icon" id="btn-cal-prev" style="width:32px; height:32px;">‹</button>
+          <button class="btn-icon" id="btn-cal-prev" aria-label="เดือนก่อนหน้า" style="width:44px; height:44px;">‹</button>
           <div class="title-md" id="cal-month-label" style="margin: 0; font-size:18px;">Month Year</div>
-          <button class="btn-icon" id="btn-cal-next" style="width:32px; height:32px;">›</button>
+          <button class="btn-icon" id="btn-cal-next" aria-label="เดือนถัดไป" style="width:44px; height:44px;">›</button>
         </div>
         <div class="cal-grid" id="cal-header-row"></div>
         <div class="cal-grid" id="cal-days-grid"></div>
@@ -2257,7 +2268,7 @@ html, body, body *, body *::before, body *::after {
     <!-- VIEW: Analytics -->
     <div id="view-analytics" class="bento-grid hide-on-print" style="display: none;">
       <div class="bento-card col-6 ani" style="background: var(--green-light);">
-        <div class="label">GPA สะสมรวม (Cumulative)</div>
+        <div class="label">GPA สะสม</div>
       <div class="stat-value grade-letter" id="stat-cum-gpa" style="color: var(--green); font-size: 64px;">-</div>
         <div class="stat-sub" id="stat-cum-credits" style="font-size: 14px; margin-top: 8px;"></div>
       </div>
@@ -2268,7 +2279,7 @@ html, body, body *, body *::before, body *::after {
       
       <!-- Radar Chart: Performance Analysis -->
       <div class="bento-card col-6 ani" style="animation-delay: 0.15s;">
-        <div class="label" style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> วิเคราะห์ Performance</div>
+        <div class="label" style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> วิเคราะห์ประสิทธิภาพ</div>
         <div style="height: 300px; width: 100%; margin-top: 16px; display: flex; align-items: center; justify-content: center;"><canvas id="analytics-radar-performance"></canvas></div>
       </div>
       
@@ -2370,7 +2381,7 @@ try {
 let appData = {
   terms: [{ id: 1, name: 'เทอม 1', subjects: [] }], currentTermId: 1, userProfilePic: null, gpaTarget: 3.0
 };
-let currentTermId = 1, currentSubjId = null, currentView = 'dashboard';
+let currentTermId = 1, currentSubjId = null, currentView = 'dashboard', subjectDraft = null;
 let syncTimer = null, chartInstances = {}, calYear = new Date().getFullYear(), calMonth = new Date().getMonth();
 // Refresh canvas text after Kanit finishes loading.
 document.fonts.ready.then(() => {
@@ -2390,7 +2401,40 @@ window.customTargetMode = false;
 const generateId = () => Date.now() + Math.floor(Math.random() * 1000);
 const getTerm = () => appData.terms.find(t => t.id === currentTermId) || appData.terms[0];
 const getSubjects = () => getTerm()?.subjects || [];
-const getSubject = () => getSubjects().find(s => s.id === currentSubjId);
+const getSubject = () => (subjectDraft && subjectDraft.id === currentSubjId) ? subjectDraft : getSubjects().find(s => s.id === currentSubjId);
+const isDraftSubject = () => !!subjectDraft && subjectDraft.id === currentSubjId;
+const safeText = (value, max = 120) => String(value ?? '').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').trim().slice(0, max);
+const escapeHTML = (value) => String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+const safeNumber = (value, min = 0, max = 100) => Math.min(max, Math.max(min, Number.isFinite(Number(value)) ? Number(value) : min));
+const normalizeSubject = (subject = {}) => ({
+  id: Number.isFinite(Number(subject.id)) ? Number(subject.id) : generateId(),
+  name: safeText(subject.name || 'ยังไม่ตั้งชื่อวิชา', 120),
+  credits: safeNumber(subject.credits, 0, 20),
+  status: ['draft','ungraded','estimated','graded','withdrawn'].includes(subject.status) ? subject.status : 'ungraded',
+  note: safeText(subject.note, 2000),
+  quickMode: !!subject.quickMode,
+  quickGrade: [...GRADES, 'W'].includes(subject.quickGrade) ? subject.quickGrade : null,
+  categories: Array.isArray(subject.categories) ? subject.categories.slice(0, 12).map(category => ({
+    id: Number.isFinite(Number(category.id)) ? Number(category.id) : generateId(),
+    type: ['assignment','midterm','final'].includes(category.type) ? category.type : 'assignment',
+    name: safeText(category.name, 80),
+    items: Array.isArray(category.items) ? category.items.slice(0, 100).map(item => ({
+      id: Number.isFinite(Number(item.id)) ? Number(item.id) : generateId(),
+      name: safeText(item.name, 120), score: item.score === '' ? '' : safeNumber(item.score, 0, 100000),
+      maxScore: safeNumber(item.maxScore || 100, 0.01, 100000), weight: safeNumber(item.weight, 0, 100),
+      locked: !!item.locked, deadline: /^\d{4}-\d{2}-\d{2}$/.test(item.deadline || '') ? item.deadline : ''
+    })) : []
+  })) : []
+});
+const normalizeAppData = (data) => {
+  const terms = Array.isArray(data?.terms) ? data.terms.slice(0, 50).map(term => ({
+    id: Number.isFinite(Number(term.id)) ? Number(term.id) : generateId(),
+    name: safeText(term.name || 'เทอม', 80),
+    subjects: Array.isArray(term.subjects) ? term.subjects.slice(0, 500).map(normalizeSubject) : []
+  })) : [];
+  if (!terms.length) terms.push({ id: generateId(), name: 'เทอม 1', subjects: [] });
+  return { ...data, terms, currentTermId: terms.some(t => t.id === Number(data?.currentTermId)) ? Number(data.currentTermId) : terms[0].id, userProfilePic: typeof data?.userProfilePic === 'string' && /^(data:image\/(png|jpeg|webp);base64,|https:\/\/)/i.test(data.userProfilePic) ? data.userProfilePic.slice(0, 2_000_000) : null, gpaTarget: safeNumber(data?.gpaTarget ?? 3, 0, 4) };
+};
 
 // ─── UI Component helpers ───
 // Reusable stat mini-card (used in analytics grid)
@@ -2431,6 +2475,14 @@ const chartTooltip = (isDark) => ({
 
 // Reusable chart text color
 const chartTextColor = (isDark) => isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)';
+const renderChartEmptyState = (canvas, message = null) => {
+  if (!canvas) return;
+  let empty = canvas.parentElement?.querySelector(':scope > .chart-empty-state');
+  canvas.hidden = !!message;
+  if (!message) { empty?.remove(); return; }
+  if (!empty) { empty = document.createElement('p'); empty.className = 'dashboard-empty chart-empty-state'; canvas.insertAdjacentElement('afterend', empty); }
+  empty.textContent = message;
+};
 
 window.toast = (msg, isErr = false, type = 'default') => {
   const container = document.getElementById('toast-container');
@@ -2443,7 +2495,12 @@ window.toast = (msg, isErr = false, type = 'default') => {
     upgrade: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>`
   };
   const icon = isErr ? SVG_ICONS.error : (SVG_ICONS[type] || SVG_ICONS.default);
-  t.innerHTML = `<span style="display:flex;align-items:center;flex-shrink:0;">${icon}</span><span>${msg}</span>`;
+  const iconWrap = document.createElement('span');
+  iconWrap.style.cssText = 'display:flex;align-items:center;flex-shrink:0';
+  iconWrap.innerHTML = icon;
+  const message = document.createElement('span');
+  message.textContent = String(msg);
+  t.append(iconWrap, message);
   if (type === 'celebrate' || type === 'upgrade' || type === 'perfect') {
     t.style.background = 'var(--green-light)';
     t.style.borderColor = 'rgba(52,199,89,0.3)';
@@ -2454,8 +2511,51 @@ window.toast = (msg, isErr = false, type = 'default') => {
   setTimeout(() => { t.style.animation = 'slideDown 0.4s reverse forwards'; setTimeout(() => t.remove(), 400); }, 3500);
 };
 
-window.openModal = (id) => document.getElementById(id).classList.add('open');
-window.closeModal = (id) => document.getElementById(id).classList.remove('open');
+let activeModal = null;
+let modalReturnFocus = null;
+const focusableSelector = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+window.openModal = (id) => {
+  const modal = document.getElementById(id);
+  if (!modal) return;
+  modalReturnFocus = document.activeElement;
+  activeModal = modal;
+  modal.hidden = false;
+  modal.inert = false;
+  modal.setAttribute('aria-hidden', 'false');
+  document.getElementById('main-app')?.setAttribute('inert', '');
+  document.getElementById('login-view')?.setAttribute('inert', '');
+  requestAnimationFrame(() => {
+    modal.classList.add('open');
+    const target = modal.querySelector('[autofocus]') || [...modal.querySelectorAll(focusableSelector)].find(el => !el.hidden && el.offsetParent !== null);
+    target?.focus();
+  });
+};
+window.closeModal = (id) => {
+  const modal = document.getElementById(id);
+  if (!modal) return;
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  modal.inert = true;
+  modal.hidden = true;
+  if (activeModal === modal) activeModal = null;
+  if (!activeModal) {
+    document.getElementById('main-app')?.removeAttribute('inert');
+    document.getElementById('login-view')?.removeAttribute('inert');
+  }
+  if (modalReturnFocus?.isConnected) modalReturnFocus.focus();
+  modalReturnFocus = null;
+};
+document.querySelectorAll('.modal-overlay').forEach(modal => { modal.hidden = true; modal.inert = true; modal.setAttribute('aria-hidden', 'true'); });
+document.addEventListener('keydown', event => {
+  if (!activeModal) return;
+  if (event.key === 'Escape') { event.preventDefault(); activeModal.id === 'onboarding-overlay' ? dismissOnboard() : closeModal(activeModal.id); return; }
+  if (event.key !== 'Tab') return;
+  const controls = [...activeModal.querySelectorAll(focusableSelector)].filter(el => !el.hidden && el.offsetParent !== null);
+  if (!controls.length) { event.preventDefault(); return; }
+  const first = controls[0], last = controls[controls.length - 1];
+  if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+  else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+});
 
 // Close settings panel when clicking the backdrop (outside the panel)
 window.handleSettingsBackdrop = (e) => {
@@ -2532,7 +2632,16 @@ const showOnboarding = () => {
   switchInstallTab(getInstallPlatform());
 
   updateOnboardStep();
-  document.getElementById('onboarding-overlay').classList.add('open');
+  const overlay = document.getElementById('onboarding-overlay');
+  overlay.hidden = false;
+  overlay.inert = false;
+  overlay.setAttribute('aria-hidden', 'false');
+  overlay.classList.add('open');
+  activeModal = overlay;
+  modalReturnFocus = document.activeElement;
+  document.getElementById('main-app')?.setAttribute('inert', '');
+  document.getElementById('login-view')?.setAttribute('inert', '');
+  overlay.querySelector('button')?.focus();
 };
 
 const switchInstallTab = (tab) => {
@@ -2553,6 +2662,12 @@ const dismissOnboard = () => {
   setTimeout(() => {
     overlay.classList.remove('open');
     overlay.style.opacity = '';
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.inert = true;
+    overlay.hidden = true;
+    if (activeModal === overlay) activeModal = null;
+    document.getElementById('main-app')?.removeAttribute('inert');
+    document.getElementById('login-view')?.removeAttribute('inert');
     if (_pendingLoginAfterOnboard) {
       _pendingLoginAfterOnboard = false;
       document.getElementById('login-view').style.display = 'flex';
@@ -2629,6 +2744,10 @@ window.toggleTermDropdown = (force) => {
   const overlay = document.getElementById('dropdown-overlay');
   const trigger = document.getElementById('term-trigger');
   const open = typeof force === 'boolean' ? force : !menu.classList.contains('open');
+  if (open) {
+    menu.hidden = false; menu.inert = false; menu.setAttribute('aria-hidden', 'false');
+    overlay.hidden = false; overlay.setAttribute('aria-hidden', 'false');
+  }
   menu.classList.toggle('open', open);
   overlay.classList.toggle('open', open);
   trigger.classList.toggle('open', open);
@@ -2638,6 +2757,8 @@ window.toggleTermDropdown = (force) => {
     placeTermMenu();
     menu.querySelector('.term-item[aria-current="true"], .term-item')?.focus();
   } else {
+    menu.inert = true; menu.hidden = true; menu.setAttribute('aria-hidden', 'true');
+    overlay.hidden = true; overlay.setAttribute('aria-hidden', 'true');
     menu.style.left = '';
     menu.style.top = '';
     trigger.focus();
@@ -2725,13 +2846,13 @@ const saveData = () => {
   
   // ตรวจสอบโหมด: ถ้าเป็น Guest Mode ห้าม sync เพื่อป้องกันข้อมูลปนกันหรือถูกเขียนทับ
   if (localStorage.getItem('guest_mode') === 'true') { 
-    setSyncStatus('synced', 'Local Only'); 
+    setSyncStatus('synced', 'ไม่ซิงก์');
     return; 
   }
   
   // ถ้า login ด้วย Google ให้ sync ตามปกติ
   const ref = getDocRef();
-  if (!ref) { setSyncStatus('synced', 'Local Only'); return; }
+  if (!ref) { setSyncStatus('synced', 'ไม่ซิงก์'); return; }
   
   setSyncStatus('syncing', 'Syncing...'); clearTimeout(syncTimer);
   syncTimer = setTimeout(async () => {
@@ -2742,11 +2863,11 @@ const saveData = () => {
 
 const loadData = async () => {
   const local = localStorage.getItem('st_data');
-  if (local) { try { appData = JSON.parse(local); currentTermId = appData.currentTermId || appData.terms[0]?.id || 1; } catch(e){} }
+  if (local) { try { appData = normalizeAppData(JSON.parse(local)); currentTermId = appData.currentTermId; } catch(e){} }
   
   // ตรวจสอบโหมด: ถ้าเป็น Guest Mode ห้าม sync เพื่อป้องกันข้อมูลปนกันหรือถูกเขียนทับ
   if (localStorage.getItem('guest_mode') === 'true') {
-    setSyncStatus('synced', 'Local Only');
+    setSyncStatus('synced', 'ไม่ซิงก์');
     if(isAppStarted) renderApp();
     return;
   }
@@ -2758,12 +2879,12 @@ const loadData = async () => {
     if (unsubSnapshot) unsubSnapshot();
     unsubSnapshot = onSnapshot(ref, (snap) => {
       if (snap.exists() && snap.data().payload) {
-        appData = JSON.parse(snap.data().payload);
-        currentTermId = appData.currentTermId || appData.terms[0]?.id || 1;
+        appData = normalizeAppData(JSON.parse(snap.data().payload));
+        currentTermId = appData.currentTermId;
         setSyncStatus('synced', 'Synced'); 
       } else { saveData(); }
       if(isAppStarted) renderApp();
-    }, (e) => { setSyncStatus('error', 'Offline'); if(isAppStarted) renderApp(); });
+    }, (e) => { setSyncStatus('error', 'เชื่อมต่อไม่ได้'); if(isAppStarted) renderApp(); });
   } else { 
     if(isAppStarted) renderApp(); 
   }
@@ -2851,8 +2972,8 @@ const triggerWelcomeAndStart = () => {
 };
 
 const checkPinAndStart = () => {
-    const storedPin = localStorage.getItem('app_pin');
-    if (storedPin) {
+    const hasPin = !!(localStorage.getItem(PIN_KEY) || localStorage.getItem('app_pin'));
+    if (hasPin) {
         document.getElementById('login-view').style.display = 'none';
         document.getElementById('pin-entry-view').style.display = 'flex';
         document.getElementById('main-app').style.display = 'none';
@@ -2860,14 +2981,22 @@ const checkPinAndStart = () => {
         pinInput.value = ''; pinInput.focus();
         
         // Auto-submit เมื่อครบ 6 หลัก
-        const verifyPin = () => {
-            if(pinInput.value === storedPin) {
+        let verifyingPin = false;
+        const verifyPin = async () => {
+            if (verifyingPin) return;
+            const remaining = getPinDelay();
+            if (remaining > 0) { toast(`ลองใหม่ใน ${Math.ceil(remaining / 1000)} วินาที`, true); return; }
+            verifyingPin = true;
+            if(await verifyStoredPin(pinInput.value)) {
+                clearPinFailures();
                 triggerWelcomeAndStart();
             } else {
-                toast('รหัส PIN ไม่ถูกต้อง', true);
+                const delay = recordPinFailure();
+                toast(delay ? `รหัส PIN ไม่ถูกต้อง ลองใหม่ใน ${Math.ceil(delay / 1000)} วินาที` : 'รหัส PIN ไม่ถูกต้อง', true);
                 pinInput.value = '';
                 pinInput.focus();
             }
+            verifyingPin = false;
         };
         
         // ตรวจสอบทุกครั้งที่พิมพ์
@@ -2983,7 +3112,7 @@ document.getElementById('btn-logout-pin')?.addEventListener('click', doLogout);
 const renderProfile = (user) => {
   const pic = appData.userProfilePic || user?.photoURL || "icon-192.png";
   const name = user?.displayName || 'ผู้ใช้งาน';
-  const email = (user && !user.isAnonymous) ? user.email : 'Local Mode';
+  const email = (user && !user.isAnonymous) ? user.email : 'เก็บข้อมูลในเครื่อง';
 
   
   // Update Top Bar
@@ -3003,8 +3132,46 @@ const renderProfile = (user) => {
   updatePinUI();
 };
 
+const PIN_KEY = 'app_pin_v2';
+const PIN_ATTEMPT_KEY = 'pin_attempt_state';
+const bytesToBase64 = bytes => btoa(String.fromCharCode(...bytes));
+const base64ToBytes = value => Uint8Array.from(atob(value), char => char.charCodeAt(0));
+const hashPin = async (pin, salt) => {
+  const input = new TextEncoder().encode(`${pin}:${salt}`);
+  return bytesToBase64(new Uint8Array(await crypto.subtle.digest('SHA-256', input)));
+};
+const createPinRecord = async pin => {
+  const salt = bytesToBase64(crypto.getRandomValues(new Uint8Array(16)));
+  return { version: 2, salt, hash: await hashPin(pin, salt) };
+};
+const getPinRecord = () => { try { return JSON.parse(localStorage.getItem(PIN_KEY)); } catch { return null; } };
+const verifyStoredPin = async pin => {
+  const record = getPinRecord();
+  if (record?.salt && record?.hash) return (await hashPin(pin, record.salt)) === record.hash;
+  const legacy = localStorage.getItem('app_pin');
+  if (legacy && pin === legacy) {
+    localStorage.setItem(PIN_KEY, JSON.stringify(await createPinRecord(pin)));
+    localStorage.removeItem('app_pin');
+    return true;
+  }
+  return false;
+};
+const getPinDelay = () => {
+  try { const state = JSON.parse(sessionStorage.getItem(PIN_ATTEMPT_KEY)); return Math.max(0, Number(state?.blockedUntil || 0) - Date.now()); } catch { return 0; }
+};
+const recordPinFailure = () => {
+  let state = { attempts: 0, blockedUntil: 0 };
+  try { state = { ...state, ...JSON.parse(sessionStorage.getItem(PIN_ATTEMPT_KEY)) }; } catch {}
+  state.attempts += 1;
+  const delay = Math.min(30_000, state.attempts <= 2 ? 0 : 1000 * 2 ** (state.attempts - 3));
+  state.blockedUntil = Date.now() + delay;
+  sessionStorage.setItem(PIN_ATTEMPT_KEY, JSON.stringify(state));
+  return delay;
+};
+const clearPinFailures = () => sessionStorage.removeItem(PIN_ATTEMPT_KEY);
+
 const updatePinUI = () => {
-    const hasPin = localStorage.getItem('app_pin');
+    const hasPin = !!(localStorage.getItem(PIN_KEY) || localStorage.getItem('app_pin'));
     // Update SVG icon: locked vs unlocked
     const iconWrap = document.getElementById('pin-icon-wrap');
     const iconSvg = document.getElementById('pin-icon-svg');
@@ -3014,28 +3181,30 @@ const updatePinUI = () => {
         : '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>';
     }
     if (iconWrap) iconWrap.className = `settings-row-icon ${hasPin ? 'icon-orange' : 'icon-neutral'}`;
-    document.getElementById('pin-text').textContent = hasPin ? 'ยกเลิกรหัส PIN' : 'ตั้งรหัส PIN';
+    document.getElementById('pin-text').textContent = hasPin ? 'ยกเลิกตัวล็อกหน้าจอ' : 'ตั้งตัวล็อกหน้าจอ';
 };
 
 document.getElementById('btn-pin-toggle')?.addEventListener('click', () => {
     closeModal('settings-modal');
-    const hasPin = localStorage.getItem('app_pin');
+    const hasPin = !!(localStorage.getItem(PIN_KEY) || localStorage.getItem('app_pin'));
     if(hasPin) {
-        showPrompt('ยกเลิกรหัส PIN', 'กรุณากรอกรหัส PIN เดิมเพื่อยกเลิก', 'unlock', '', (val) => {
-            if(val === hasPin) {
+        showPrompt('ยกเลิกตัวล็อกหน้าจอ', 'กรุณากรอก PIN เดิมเพื่อยกเลิก', 'unlock', '', async (val) => {
+            if(await verifyStoredPin(val)) {
+                localStorage.removeItem(PIN_KEY);
                 localStorage.removeItem('app_pin');
                 updatePinUI();
-                toast('ยกเลิกรหัส PIN แล้ว');
+                toast('ยกเลิกตัวล็อกหน้าจอแล้ว');
             } else {
                 toast('รหัส PIN ไม่ถูกต้อง', true);
             }
         }, 'password');
     } else {
-        showPrompt('ตั้งรหัส PIN', 'กรอกรหัส PIN (ตัวเลข 4-6 หลัก)', 'lock', '', (val) => {
+        showPrompt('ตั้งตัวล็อกหน้าจอ', 'กรอก PIN ตัวเลข 4-6 หลัก (PIN นี้ไม่ได้เข้ารหัสข้อมูล)', 'lock', '', async (val) => {
             if(val && val.length >= 4 && val.length <= 6 && /^\d+$/.test(val)) {
-                localStorage.setItem('app_pin', val);
+                localStorage.setItem(PIN_KEY, JSON.stringify(await createPinRecord(val)));
+                localStorage.removeItem('app_pin');
                 updatePinUI();
-                toast('ตั้งรหัส PIN สำเร็จ');
+                toast('ตั้งตัวล็อกหน้าจอสำเร็จ');
             } else {
                 toast('กรุณากรอกตัวเลข 4-6 หลักเท่านั้น', true);
             }
@@ -3108,22 +3277,24 @@ let _calcCache = Object.create(null);
 const bustCache = () => { _calcCache = Object.create(null); };
 
 const calcSubject = s => {
-  if (!s) return { score: 0, raw: 0 };
+  if (!s) return { score: null, raw: null, status: 'ungraded' };
   const key = 's' + s.id;
   if (_calcCache[key]) return _calcCache[key];
   let result;
-  if (s.quickMode && s.quickGrade === 'W') { result = { score: 0, raw: 0, isW: true }; }
-  else if (s.quickMode && s.quickGrade) { const m = getBoundaries(s)[s.quickGrade] || 0; result = { score: m, raw: m }; }
+  if (s.quickMode && s.quickGrade === 'W') { result = { score: null, raw: null, isW: true, status: 'withdrawn' }; }
+  else if (s.quickMode && s.quickGrade) { const m = getBoundaries(s)[s.quickGrade] ?? 0; result = { score: m, raw: m, status: 'graded' }; }
+  else if (s.quickMode) { result = { score: null, raw: null, status: 'ungraded' }; }
   else {
-    let earned = 0;
+    let earned = 0, assessedItems = 0;
     (s.categories || []).forEach(c => {
       (c.items || []).forEach(i => {
         if (i.locked && i.score !== '') {
+          assessedItems += 1;
           earned += (parseFloat(i.score) || 0) / (parseFloat(i.maxScore) || 100) * (parseFloat(i.weight) || 0);
         }
       });
     });
-    result = { score: earned, raw: earned };
+    result = assessedItems ? { score: earned, raw: earned, status: 'estimated', assessedItems } : { score: null, raw: null, status: 'ungraded', assessedItems: 0 };
   }
   return (_calcCache[key] = result);
 };
@@ -3132,6 +3303,7 @@ const scoreToGrade = (score, s) => {
   if (s?.quickMode && s.quickGrade === 'W') return { letter: 'W', gp: null };
   if (s?.quickMode && s.quickGrade) return { letter: s.quickGrade, gp: GP[s.quickGrade] };
   if (s?.quickMode) return { letter: '-', gp: null };
+  if (score === null || score === undefined || !Number.isFinite(Number(score))) return { letter: '-', gp: null };
   
   const b = getBoundaries(s);
   for (const k of GRADES) if (score >= b[k]) return { letter: k, gp: GP[k] };
@@ -3194,6 +3366,16 @@ document.getElementById('main-wrap').addEventListener('scroll', function() {
 
 // ─── NAVIGATION ───
 const switchView = (view, subjId = null) => {
+  if (subjectDraft && currentView === 'subject' && view !== 'subject' && !window.forceDiscardDraft) {
+    showConfirm('ยกเลิกการเพิ่มวิชา', 'ข้อมูลในแบบร่างนี้ยังไม่ได้บันทึก ต้องการออกโดยไม่บันทึกหรือไม่?', 'warn', () => {
+      subjectDraft = null;
+      currentSubjId = null;
+      window.forceDiscardDraft = true;
+      switchView(view, subjId);
+      window.forceDiscardDraft = false;
+    });
+    return;
+  }
   if (view === 'subject' && currentView !== 'subject') {
     window.prevView = currentView;
   }
@@ -3392,10 +3574,10 @@ const renderDashboard = () => {
 
   const courseRows = subjects.map((s, index) => {
     const result = calcSubject(s), grade = scoreToGrade(result.score, s);
-    const score = s.quickMode ? (s.quickGrade || '–') : result.score.toFixed(1);
-    return `<button class="dashboard-course" type="button" onclick="window.switchView('subject', ${s.id})" aria-label="เปิดวิชา ${s.name}">
+    const score = s.quickMode ? (s.quickGrade || '–') : (result.score === null ? 'ยังไม่ได้กรอก' : result.score.toFixed(1));
+    return `<button class="dashboard-course" type="button" onclick="window.switchView('subject', ${Number(s.id)})" aria-label="เปิดวิชา ${escapeHTML(s.name)}">
       <span class="course-index">${String(index + 1).padStart(2, '0')}</span>
-      <span class="course-name">${s.name}<small>${s.credits} หน่วยกิต</small></span>
+      <span class="course-name">${escapeHTML(s.name)}<small>${safeNumber(s.credits, 0, 20)} หน่วยกิต</small></span>
       <span class="course-score grade-letter">${score}</span>
       <span class="course-grade tag ${grade.letter}">${grade.letter}</span>
       <span class="course-arrow" aria-hidden="true">↗</span>
@@ -3408,13 +3590,13 @@ const renderDashboard = () => {
     const date = new Date(d.dl);
     const label = Number.isNaN(date.getTime()) ? d.dl : date.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
     return `<button class="dashboard-deadline" type="button" onclick="window.switchView('subject', ${d.sId})">
-      <span class="deadline-date">${label}</span><span class="deadline-detail"><strong>${d.item}</strong><small>${d.subj}</small></span><span aria-hidden="true">↗</span>
+      <span class="deadline-date">${label}</span><span class="deadline-detail"><strong>${escapeHTML(d.item)}</strong><small>${escapeHTML(d.subj)}</small></span><span aria-hidden="true">↗</span>
     </button>`;
   }).join('');
 
   document.getElementById('view-dashboard').innerHTML = `
     <section class="dashboard-goal ani" aria-label="สรุปเป้าหมายเกรด">
-      <div class="goal-copy"><div class="goal-overline">เป้าหมาย GPA · ${getTerm().name}</div>
+      <div class="goal-copy"><div class="goal-overline">เป้าหมาย GPA · ${escapeHTML(getTerm().name)}</div>
         <div class="goal-number grade-letter">${goal.toFixed(2)}</div>
         <p class="goal-message grade-letter ${isReachable ? '' : 'goal-alert'}">${goalMessage}</p>
         <button class="goal-action" type="button" onclick="window.switchView('targets')">วางแผนให้ถึงเป้าหมาย <span aria-hidden="true">↗</span></button>
@@ -3487,7 +3669,7 @@ const renderSubjectsList = () => {
   
   grid.innerHTML = subjects.map((s, idx) => {
     const r = calcSubject(s), g = scoreToGrade(r.score, s);
-    const scoreStr = s.quickMode ? (s.quickGrade || '-') : r.score.toFixed(1);
+    const scoreStr = s.quickMode ? (s.quickGrade || 'ยังไม่ประกาศผล') : (r.score === null ? 'ยังไม่ได้กรอก' : r.score.toFixed(1));
     const wBan = g.letter === 'W' ? `<div style="font-size:10px; font-weight:800; background:var(--surface-dim); padding:2px 10px; border-radius:100px; margin-bottom:12px; display:inline-block; border: 1px solid var(--glass-border);">Withdraw</div>` : '';
     const dragHandle = isReorderMode ? `<div style="position: absolute; top: 12px; right: 12px; opacity: 0.3; cursor: grab; display:flex; align-items:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/></svg></div>` : '';
     const reorderStyle = isReorderMode ? 'box-shadow: 0 0 0 2px var(--accent-light); cursor: grab;' : 'cursor: pointer;';
@@ -3511,7 +3693,7 @@ const renderSubjectsList = () => {
       <div class="bento-card col-4 ani hoverable subject-card ${gradeClass}" data-id="${s.id}" style="animation-delay: ${idx*0.05}s; ${reorderStyle} ${cardTint} ${g.letter==='W'?'opacity:0.6; filter: grayscale(50%);':''}" ${clickHandler}>
         ${dragHandle}
         ${wBan}
-        <div class="title-md" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size: 18px; margin-bottom: 4px;">${s.name}</div>
+        <div class="title-md" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size: 18px; margin-bottom: 4px;">${escapeHTML(s.name)}</div>
         <div class="grade-letter" style="font-family: var(--mono); color: var(--ink3); font-size: 12px; margin-bottom: 20px; font-weight: 500;">คะแนนรวม: ${scoreStr}</div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
           <span style="font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--ink3); background: var(--surface-dim); padding: 3px 8px; border-radius: 6px;">${s.credits} cr</span>
@@ -3579,6 +3761,13 @@ const renderSubjectDetail = () => {
   document.getElementById('subj-name-input').value = s.name;
   document.getElementById('subj-note').value = s.note || '';
   document.getElementById('quick-toggle').checked = !!s.quickMode;
+  const draftMode = isDraftSubject();
+  document.getElementById('btn-save-subject').style.display = draftMode ? 'inline-flex' : 'none';
+  document.getElementById('btn-cancel-subject').style.display = draftMode ? 'inline-flex' : 'none';
+  document.getElementById('btn-edit-scale').style.display = draftMode ? 'none' : 'inline-flex';
+  document.getElementById('btn-dup-subject').style.display = draftMode ? 'none' : 'inline-flex';
+  document.getElementById('btn-del-subject').style.display = draftMode ? 'none' : 'inline-flex';
+  document.getElementById('subj-name-input').placeholder = draftMode ? 'กรอกชื่อวิชา *' : 'ชื่อวิชา';
   
   // Show/Hide custom scale indicator
   document.getElementById('custom-scale-indicator').style.display = s.customBoundaries ? 'inline-flex' : 'none';
@@ -3598,7 +3787,7 @@ const renderSubjectDetail = () => {
   
   document.getElementById('subj-grade-pill').textContent = g.letter;
   document.getElementById('subj-grade-pill').style.color = color;
-  document.getElementById('subj-stat-raw').textContent = (s.quickMode && s.quickGrade === 'W') ? 'W' : s.quickMode ? (s.quickGrade || '-') : r.raw.toFixed(1) + '%';
+  document.getElementById('subj-stat-raw').textContent = (s.quickMode && s.quickGrade === 'W') ? 'W' : s.quickMode ? (s.quickGrade || '–') : (r.raw === null ? '–' : r.raw.toFixed(1) + '%');
   document.getElementById('subj-stat-grade').textContent = g.letter;
   document.getElementById('subj-stat-grade').style.color = color;
 
@@ -3608,7 +3797,7 @@ const renderSubjectDetail = () => {
   void (popEls[0] || document.body).offsetWidth; // single reflow
   popEls.forEach(el => { el.classList.add('stat-pop'); setTimeout(() => el.classList.remove('stat-pop'), 300); });
   
-  document.getElementById('subj-score-detail').textContent = s.quickMode ? 'โหมดข้ามการคำนวณย่อย' : `สะสม ${r.score.toFixed(1)}%`;
+  document.getElementById('subj-score-detail').textContent = r.status === 'ungraded' ? 'ยังไม่ได้กรอกคะแนน' : s.quickMode ? 'เกรดจริงแบบรวบยอด' : `คะแนนคาดการณ์ ${r.score.toFixed(1)}%`;
 
   if (s.quickMode) {
     document.getElementById('detailed-mode-section').style.display = 'none';
@@ -3665,6 +3854,13 @@ const updateFinalCalc = () => {
   
   const targetScore = getBoundaries(s)[selectedFinalTarget];
   const r = calcSubject(s);
+  if (r.score === null) {
+    res.textContent = '-';
+    fScore.textContent = '-'; fMax.textContent = ''; fPercent.textContent = '';
+    fInfo.textContent = 'กรอกคะแนนที่ประกาศแล้วอย่างน้อยหนึ่งรายการก่อน';
+    fInfo.style.color = 'var(--ink2)';
+    return;
+  }
   const needed = targetScore - r.score;
   
   if (needed <= 0) { 
@@ -3749,7 +3945,7 @@ const renderCategories = () => {
     return `
       <div class="cat-box" data-cid="${c.id}" data-type="${c.type}">
         <div class="cat-header">
-          <div class="cat-title"><span style="display:flex;align-items:center;color:${catColor}">${CAT_ICONS[c.type]||CAT_ICONS.assignment}</span> ${c.name}</div>
+          <div class="cat-title"><span style="display:flex;align-items:center;color:${catColor}">${CAT_ICONS[c.type]||CAT_ICONS.assignment}</span> ${escapeHTML(c.name)}</div>
           <div class="cat-stats">
             <div><div class="cat-stat-val" style="color:${catColor}">${earnedC.toFixed(1)} / ${totalCWeight}%</div><div class="cat-stat-lbl">คะแนนที่ได้</div></div>
           </div>
@@ -3759,7 +3955,7 @@ const renderCategories = () => {
           ${c.items.map(i => `
             <div class="item-row" data-iid="${i.id}" style="opacity: ${i.locked?1:0.5};">
               <div class="item-name-col">
-                <input type="text" class="item-name-input" value="${i.name||''}" data-cid="${c.id}" data-iid="${i.id}" placeholder="ชื่องาน/การสอบ">
+                <input type="text" class="item-name-input" value="${escapeHTML(i.name||'')}" data-cid="${Number(c.id)}" data-iid="${Number(i.id)}" placeholder="ชื่องาน/การสอบ" maxlength="120">
                 <input type="date" class="item-dl-input dl-input" value="${i.deadline||''}" data-cid="${c.id}" data-iid="${i.id}">
               </div>
               <div class="item-score-col">
@@ -3816,8 +4012,8 @@ const renderCategories = () => {
   }).join('');
   
   container.querySelectorAll('.item-name-input').forEach(el => {
-    el.addEventListener('change', e => { const i = s.categories.find(c => c.id == el.dataset.cid)?.items.find(x => x.id == el.dataset.iid); if(i) { i.name = e.target.value; saveData(); e.target.style.borderBottomColor = 'var(--green)'; setTimeout(() => e.target.style.borderBottomColor = '', 500); } });
-    el.addEventListener('blur', e => { const i = s.categories.find(c => c.id == el.dataset.cid)?.items.find(x => x.id == el.dataset.iid); if(i) { i.name = e.target.value; saveData(); } });
+    el.addEventListener('change', e => { const i = s.categories.find(c => c.id == el.dataset.cid)?.items.find(x => x.id == el.dataset.iid); if(i) { i.name = safeText(e.target.value, 120); if (!isDraftSubject()) saveData(); e.target.style.borderBottomColor = 'var(--green)'; setTimeout(() => e.target.style.borderBottomColor = '', 500); } });
+    el.addEventListener('blur', e => { const i = s.categories.find(c => c.id == el.dataset.cid)?.items.find(x => x.id == el.dataset.iid); if(i) { i.name = safeText(e.target.value, 120); if (!isDraftSubject()) saveData(); } });
   });
   
   container.querySelectorAll('.item-dl-input').forEach(el => {
@@ -3881,9 +4077,26 @@ const renderCategories = () => {
   container.querySelectorAll('.btn-add-item').forEach(el => el.addEventListener('click', () => { const c = s.categories.find(x => x.id == el.dataset.cid); if(c) { c.items.push({ id: generateId(), name: '', score: '', maxScore: 100, weight: 10, locked: true, deadline: '' }); saveData(); renderSubjectDetail(); } }));
 };
 
-document.getElementById('subj-name-input')?.addEventListener('change', e => { const s = getSubject(); if(s) { s.name = e.target.value; saveData(); } });
-document.getElementById('subj-note')?.addEventListener('change', e => { const s = getSubject(); if(s) { s.note = e.target.value; saveData(); } });
-document.getElementById('quick-toggle')?.addEventListener('change', e => { const s = getSubject(); if(s) { s.quickMode = e.target.checked; saveData(); renderSubjectDetail(); } });
+document.getElementById('subj-name-input')?.addEventListener('input', e => { const s = getSubject(); if(s) { s.name = safeText(e.target.value, 120); if (!isDraftSubject()) saveData(); } });
+document.getElementById('subj-note')?.addEventListener('input', e => { const s = getSubject(); if(s) { s.note = safeText(e.target.value, 2000); if (!isDraftSubject()) saveData(); } });
+document.getElementById('quick-toggle')?.addEventListener('change', e => { const s = getSubject(); if(s) { s.quickMode = e.target.checked; if (!isDraftSubject()) saveData(); renderSubjectDetail(); } });
+
+document.getElementById('btn-save-subject')?.addEventListener('click', () => {
+  if (!subjectDraft) return;
+  const name = safeText(document.getElementById('subj-name-input').value, 120);
+  if (!name) { toast('กรุณากรอกชื่อวิชาก่อนบันทึก', true); document.getElementById('subj-name-input').focus(); return; }
+  subjectDraft.name = name;
+  subjectDraft.status = calcSubject(subjectDraft).status;
+  getTerm().subjects.push(normalizeSubject(subjectDraft));
+  const savedId = subjectDraft.id;
+  subjectDraft = null;
+  currentSubjId = savedId;
+  saveData();
+  renderSubjectDetail();
+  toast('บันทึกวิชาแล้ว');
+});
+
+document.getElementById('btn-cancel-subject')?.addEventListener('click', () => window.switchView(window.prevView || 'subjects'));
 
 document.getElementById('btn-del-subject')?.addEventListener('click', () => {
   showConfirm('ลบวิชา', `คุณแน่ใจหรือไม่ที่จะลบวิชา "${getSubject()?.name}"?`, 'delete', () => {
@@ -3898,8 +4111,9 @@ document.getElementById('btn-dup-subject')?.addEventListener('click', () => {
 });
 document.getElementById('btn-add-subject')?.addEventListener('click', () => {
   const id = generateId();
-  getTerm().subjects.push({ id, name: 'วิชาใหม่', credits: 3, categories: [{ id: generateId(), type: 'assignment', name: 'คะแนนเก็บ', items: [] }, { id: generateId(), type: 'midterm', name: 'สอบกลางภาค', items: [] }, { id: generateId(), type: 'final', name: 'สอบปลายภาค', items: [] }], note: '', quickMode: false, quickGrade: null });
-  saveData(); switchView('subject', id);
+  subjectDraft = { id, name: '', credits: 3, status: 'draft', categories: [{ id: generateId(), type: 'assignment', name: 'คะแนนเก็บ', items: [] }, { id: generateId(), type: 'midterm', name: 'สอบกลางภาค', items: [] }, { id: generateId(), type: 'final', name: 'สอบปลายภาค', items: [] }], note: '', quickMode: false, quickGrade: null };
+  switchView('subject', id);
+  setTimeout(() => document.getElementById('subj-name-input')?.focus(), 0);
 });
 
 // Toggle Reorder Mode
@@ -3974,18 +4188,18 @@ const renderTargetView = () => {
     <div class="label" style="margin-bottom: 16px; font-size: 14px;">รายวิชาที่รอประเมิน (${rem.length})</div>
     <div style="display: flex; flex-direction: column; gap: 12px;">
       ${rem.map(s => {
-        const r = calcSubject(s), curScoreStr = s.quickMode ? (s.quickGrade || '-') : r.score.toFixed(1);
+        const r = calcSubject(s), curScoreStr = s.quickMode ? (s.quickGrade || '-') : (r.score === null ? 'ยังไม่ได้กรอก' : r.score.toFixed(1));
         const reqGrade = (reqGp !== null && feasible) ? mapGPtoLetter(reqGp) : '-';
         const reqScore = (reqGp !== null && feasible) ? getBoundaries(s)[reqGrade] : null;
-        const prog = reqScore ? Math.min(100, (r.score / reqScore) * 100) : 0;
+        const prog = reqScore && r.score !== null ? Math.min(100, (r.score / reqScore) * 100) : 0;
         const c = GRADE_COLORS[reqGrade] || 'var(--ink)';
         return `
-          <button type="button" class="bento-card hoverable target-course" onclick="window.switchView('subject', ${s.id})" aria-label="เปิดวิชา ${s.name} เป้าหมาย ${reqGrade}">
+          <button type="button" class="bento-card hoverable target-course" onclick="window.switchView('subject', ${Number(s.id)})" aria-label="เปิดวิชา ${escapeHTML(s.name)} เป้าหมาย ${reqGrade}">
             <span class="target-course-head">
-              <span><strong>${s.name}</strong><small>${s.credits} cr · ตอนนี้ <span class="grade-letter">${curScoreStr}</span></small></span>
+              <span><strong>${escapeHTML(s.name)}</strong><small>${safeNumber(s.credits, 0, 20)} หน่วยกิต · ตอนนี้ <span class="grade-letter">${curScoreStr}</span></small></span>
               <span class="target-course-grade"><small>เป้าหมาย</small><strong class="grade-letter" style="color: ${c};">${reqGrade}</strong></span>
             </span>
-            ${reqScore ? `<span class="progress-bar"><span class="progress-fill animate-in grade-letter" data-width="${prog}" style="width: 0%; background: ${prog >= 100 ? 'var(--green)' : c};"></span></span><span class="target-course-foot grade-letter">${r.score.toFixed(1)} / ${reqScore} (${prog.toFixed(0)}%)</span>` : ''}
+            ${reqScore && r.score !== null ? `<span class="progress-bar"><span class="progress-fill animate-in grade-letter" data-width="${prog}" style="width: 0%; background: ${prog >= 100 ? 'var(--green)' : c};"></span></span><span class="target-course-foot grade-letter">${r.score.toFixed(1)} / ${reqScore} (${prog.toFixed(0)}%)</span>` : '<span class="target-course-foot">ยังไม่มีคะแนนสำหรับคำนวณความคืบหน้า</span>'}
           </button>
         `;
       }).join('')}
@@ -4023,12 +4237,13 @@ const renderPlanner = () => {
   for(let d=1; d<=daysInMonth; d++) {
     const dStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const dt = new Date(calYear, calMonth, d), isToday = dt.getTime() === today.getTime(), dls = dlMap[dStr] || [], hasEvents = dls.length > 0;
+    const dayLabel = `${d} ${monthNames[calMonth]} ${calYear + 543}${hasEvents ? ` มี ${dls.length} กำหนดการ` : ' ไม่มีกำหนดการ'}`;
     cells += `
-      <div class="cal-day ${hasEvents?'has-events':''} ${isToday?'today':''}" ${hasEvents?`onclick="window.switchView('subject', ${dls[0].sId})"`:''}>
+      <button type="button" class="cal-day ${hasEvents?'has-events':''} ${isToday?'today':''}" aria-label="${dayLabel}" ${hasEvents?`onclick="window.switchView('subject', ${Number(dls[0].sId)})"`:''}>
         <div class="cal-num">${d}</div>
-        ${dls.slice(0, 2).map(dl => `<div class="cal-event" title="${dl.item}">${dl.item}</div>`).join('')}
+        ${dls.slice(0, 2).map(dl => `<div class="cal-event" title="${escapeHTML(dl.item)}">${escapeHTML(dl.item)}</div>`).join('')}
         ${dls.length > 2 ? `<div style="font-size:10px; color:var(--ink3); font-weight:800; margin-top:auto;">+${dls.length-2} งาน</div>` : ''}
-      </div>
+      </button>
     `;
   }
   document.getElementById('cal-days-grid').innerHTML = cells;
@@ -4040,7 +4255,7 @@ const renderPlanner = () => {
     const dt = new Date(d.dl); dt.setHours(12); const diff = Math.ceil((dt - today) / (1000 * 60 * 60 * 24));
     const lbl = diff < 0 ? `เลยมา ${-diff} วัน` : diff === 0 ? 'วันนี้' : diff === 1 ? 'พรุ่งนี้' : diff <= 7 ? `อีก ${diff} วัน` : dt.toLocaleDateString('th-TH', {day:'numeric', month:'short'});
     const c = diff < 0 ? 'var(--red)' : diff === 0 ? 'var(--orange)' : diff <= 3 ? 'var(--accent)' : 'var(--ink3)';
-    return `<div class="dl-item" onclick="window.switchView('subject', ${d.sId})" style="cursor:pointer;"><div class="dl-dot" style="background: ${c};"></div><div class="dl-info"><div class="dl-name">${d.item}</div><div class="dl-subj">${d.subj}</div></div><div class="dl-time" style="color: ${c};">${lbl}</div></div>`;
+    return `<div class="dl-item" onclick="window.switchView('subject', ${Number(d.sId)})" style="cursor:pointer;"><div class="dl-dot" style="background: ${c};"></div><div class="dl-info"><div class="dl-name">${escapeHTML(d.item)}</div><div class="dl-subj">${escapeHTML(d.subj)}</div></div><div class="dl-time" style="color: ${c};">${lbl}</div></div>`;
   }).join('');
   
   document.getElementById('planner-upcoming-list').innerHTML = renderList(upcoming, 'ไม่มีงานใน 7 วันนี้');
@@ -4059,19 +4274,19 @@ const renderAnalytics = () => {
   all.sort((a, b) => b.gp - a.gp); const best = all[0], worst = all[all.length - 1];
   
   // Empty state for best/worst when no data
-  document.getElementById('analytics-best-worst').innerHTML = (!best) ? 
-    emptyStateHTML('chart', 'ยังไม่มีข้อมูล', 'เพิ่มวิชาและกรอกคะแนนเพื่อดูสถิติ')
+  document.getElementById('analytics-best-worst').innerHTML = (all.length < 2) ?
+    emptyStateHTML('chart', 'ข้อมูลยังไม่พอสำหรับเปรียบเทียบ', 'ต้องมีผลประเมินอย่างน้อย 2 วิชา จึงจะแสดงวิชาที่เด่นและควรพัฒนา')
   : `
     ${best ? `<div>
       <div class="stat-mini-label stat-mini-label-green">ดีที่สุด</div>
       <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-        <div><div style="font-size: 18px; font-weight: 800;">${best.name}</div><div style="font-size: 12px; color: var(--ink3); font-family: var(--mono);">${best.tn}</div></div>
+        <div><div style="font-size: 18px; font-weight: 800;">${escapeHTML(best.name)}</div><div style="font-size: 12px; color: var(--ink3); font-family: var(--mono);">${escapeHTML(best.tn)}</div></div>
         <div class="grade-letter mono-stat mono-stat-32" style="color:var(--green)">${best.let}</div>
       </div></div>` : ''}
     ${(worst && worst.name !== best.name) ? `<div class="section-divider"></div><div>
       <div class="stat-mini-label stat-mini-label-orange">ควรพัฒนา</div>
       <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-        <div><div style="font-size: 18px; font-weight: 800;">${worst.name}</div><div style="font-size: 12px; color: var(--ink3); font-family: var(--mono);">${worst.tn}</div></div>
+        <div><div style="font-size: 18px; font-weight: 800;">${escapeHTML(worst.name)}</div><div style="font-size: 12px; color: var(--ink3); font-family: var(--mono);">${escapeHTML(worst.tn)}</div></div>
         <div class="grade-letter mono-stat mono-stat-32" style="color:var(--orange)">${worst.let}</div>
       </div></div>` : ''}
   `;
@@ -4082,6 +4297,9 @@ const renderAnalytics = () => {
   const radarCtx = document.getElementById('analytics-radar-performance');
   if (radarCtx) {
     if (chartInstances.radar) chartInstances.radar.destroy();
+    if (!all.length) { renderChartEmptyState(radarCtx, 'เพิ่มผลประเมินอย่างน้อย 1 วิชาเพื่อดูภาพรวมประสิทธิภาพ'); }
+    else {
+    renderChartEmptyState(radarCtx);
     
     // คำนวณ performance metrics
     const currentTerm = getTerm();
@@ -4140,12 +4358,16 @@ const renderAnalytics = () => {
         }
       }
     });
+    }
   }
   
   // Bar Chart: Grade Distribution (Vertical with meaningful colors)
   const barCtx = document.getElementById('analytics-bar-grades');
   if (barCtx) {
     if (chartInstances.gradeBar) chartInstances.gradeBar.destroy();
+    if (!all.length) { renderChartEmptyState(barCtx, 'ยังไม่มีเกรดจริงหรือเกรดคาดการณ์สำหรับสร้างกราฟ'); }
+    else {
+    renderChartEmptyState(barCtx);
     
     const counts = {}; 
     GRADES.concat(['W']).forEach(g => counts[g] = 0); 
@@ -4223,6 +4445,7 @@ const renderAnalytics = () => {
         }
       }
     });
+    }
   }
   
   // Comparison Chart
@@ -4231,9 +4454,13 @@ const renderAnalytics = () => {
     if (chartInstances.compare) chartInstances.compare.destroy();
     const labels = appData.terms.map(t => t.name);
     const termGPAs = appData.terms.map(t => calcTermGPA(t));
-    const dataGpa = termGPAs.map(r => r.gpa !== null ? parseFloat(r.gpa.toFixed(2)) : 0);
+    const dataGpa = termGPAs.map(r => r.gpa !== null ? parseFloat(r.gpa.toFixed(2)) : null);
     const dataCr = termGPAs.map(r => r.credits);
-    chartInstances.compare = new Chart(ctx, { type: 'bar', data: { labels, datasets: [{ label: 'GPA', data: dataGpa, backgroundColor: dataGpa.map(v=>v>=3.5?'#34c759':v>=3.0?'#0071e3':v>=2.0?'#ff9f0a':'#ff3b30'), borderRadius: 8 }, { label: 'Credits', data: dataCr, backgroundColor: 'var(--purple-light)', borderColor: '#af52de', borderWidth: 2, borderRadius: 8, yAxisID: 'y2' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 4, border: {display: false}, grid: { color: 'var(--chart-grid)' }, ticks: { color: textColor } }, y2: { position: 'right', border: {display: false}, grid: { display: false }, ticks: { color: textColor } }, x: { border: {display: false}, grid: { display: false }, ticks: { color: textColor, font: {family: 'Kanit', weight: 600} } } }, plugins: { tooltip: chartTooltip(isDark) } } });
+    if (!dataGpa.some(value => value !== null)) renderChartEmptyState(ctx, 'ต้องมีผลประเมินอย่างน้อย 1 เทอมก่อนจึงจะเปรียบเทียบได้');
+    else {
+      renderChartEmptyState(ctx);
+      chartInstances.compare = new Chart(ctx, { type: 'bar', data: { labels, datasets: [{ label: 'GPA', data: dataGpa, backgroundColor: dataGpa.map(v=>v>=3.5?'#34c759':v>=3.0?'#0071e3':v>=2.0?'#ff9f0a':'#ff3b30'), borderRadius: 8 }, { label: 'หน่วยกิต', data: dataCr, backgroundColor: 'var(--purple-light)', borderColor: '#af52de', borderWidth: 2, borderRadius: 8, yAxisID: 'y2' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 4, border: {display: false}, grid: { color: 'var(--chart-grid)' }, ticks: { color: textColor } }, y2: { position: 'right', border: {display: false}, grid: { display: false }, ticks: { color: textColor } }, x: { border: {display: false}, grid: { display: false }, ticks: { color: textColor, font: {family: 'Kanit', weight: 600} } } }, plugins: { tooltip: chartTooltip(isDark) } } });
+    }
   }
   
   // สถิติเพิ่มเติม - ข้อมูลที่เป็นประโยชน์
@@ -4246,7 +4473,7 @@ const renderAnalytics = () => {
   const highestGPA = termGPAValues.length > 0 ? Math.max(...termGPAValues) : 0;
   const lowestGPA = termGPAValues.length > 0 ? Math.min(...termGPAValues) : 0;
   
-  document.getElementById('analytics-grade-dist').innerHTML = `
+  document.getElementById('analytics-grade-dist').innerHTML = totalSubjects === 0 ? emptyStateHTML('chart', 'ยังไม่มีผลประเมิน', 'กรอกคะแนนหรือเกรดอย่างน้อยหนึ่งวิชาเพื่อดูสถิติ') : `
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
       ${statMiniCard('accent', 'เกรดเฉลี่ย', avgGPA.toFixed(2), `จาก ${totalSubjects} วิชา`)}
       ${statMiniCard('green',  'อัตราผ่าน',  passRate.toFixed(0) + '%', 'เกรด C ขึ้นไป')}
@@ -4263,7 +4490,7 @@ const renderAnalytics = () => {
     </div>
   `;
   
-  document.getElementById('analytics-term-table').innerHTML = `<div class="table-container"><table class="bento-table"><thead><tr><th>เทอม</th><th>GPA</th><th>Cr</th></tr></thead><tbody>${appData.terms.map(t => { const r = calcTermGPA(t); return `<tr><td>${t.name}</td><td class="grade-letter" style="font-family:var(--mono); font-weight:800; color:${r.gpa>=3?'var(--green)':'var(--ink)'}">${r.gpa!==null?r.gpa.toFixed(2):'-'}</td><td style="font-family:var(--mono);">${r.credits}</td></tr>`; }).join('')}</tbody></table></div>`;};
+  document.getElementById('analytics-term-table').innerHTML = `<div class="table-container"><table class="bento-table"><thead><tr><th>เทอม</th><th>GPA</th><th>หน่วยกิต</th></tr></thead><tbody>${appData.terms.map(t => { const r = calcTermGPA(t); return `<tr><td>${escapeHTML(t.name)}</td><td class="grade-letter" style="font-family:var(--mono); font-weight:800; color:${r.gpa!==null&&r.gpa>=3?'var(--green)':'var(--ink)'}">${r.gpa!==null?r.gpa.toFixed(2):'ยังไม่มีข้อมูล'}</td><td style="font-family:var(--mono);">${r.credits}</td></tr>`; }).join('')}</tbody></table></div>`;};
 
 // ─── CONTROL CENTER ACTIONS ───
 document.getElementById('btn-add-term')?.addEventListener('click', () => { closeModal('settings-modal'); showPrompt('เพิ่มเทอมใหม่', 'กรุณาตั้งชื่อเทอมใหม่', 'add', '', (val) => { if (val && val.trim()) { const id = generateId(); appData.terms.push({ id, name: val.trim(), subjects: [] }); currentTermId = id; saveData(); renderApp(); toast('เพิ่มเทอมใหม่เรียบร้อย'); } }); });
@@ -4284,7 +4511,7 @@ document.getElementById('backup-upload')?.addEventListener('change', e => {
   r.onload = ev => {
     try {
       const parsed = JSON.parse(ev.target.result);
-      if (parsed && parsed.terms) { appData = parsed; currentTermId = appData.currentTermId || appData.terms[0].id; saveData(); renderApp(); toast('กู้คืนข้อมูลเรียบร้อย'); closeModal('settings-modal'); }
+      if (parsed && parsed.terms) { appData = normalizeAppData(parsed); currentTermId = appData.currentTermId; saveData(); renderApp(); toast('กู้คืนข้อมูลเรียบร้อย'); closeModal('settings-modal'); }
       else throw new Error('Invalid format');
     } catch(err) { toast('ไฟล์ข้อมูลไม่ถูกต้อง', true); }
   };
@@ -4324,9 +4551,10 @@ document.getElementById('btn-export-pdf')?.addEventListener('click', async () =>
   const cum = calcCumGPA();
   
   // ดึงข้อมูลโปรไฟล์
-  const profilePic = appData.userProfilePic || document.getElementById('profile-img')?.src || "icon-192.png";
-  const profileName = document.getElementById('profile-name')?.textContent || 'ผู้ใช้งาน';
-  const profileEmail = document.getElementById('profile-email')?.textContent || 'Local Mode';
+  const rawProfilePic = appData.userProfilePic || document.getElementById('profile-img')?.src || "icon-192.png";
+  const profilePic = /^(data:image\/(png|jpeg|webp);base64,|https:\/\/|icon-192\.png$)/i.test(rawProfilePic) ? rawProfilePic : 'icon-192.png';
+  const profileName = safeText(document.getElementById('profile-name')?.textContent || 'ผู้ใช้งาน', 120);
+  const profileEmail = safeText(document.getElementById('profile-email')?.textContent || 'เก็บข้อมูลในเครื่อง', 160);
   
   // สร้าง Share Link
   const payload = { t: t.name, g: termR, s: subjects.map(s => { const r = calcSubject(s), g = scoreToGrade(r.score, s); return { n: s.name, c: s.credits, gr: g.letter }; }) };
@@ -4339,7 +4567,7 @@ document.getElementById('btn-export-pdf')?.addEventListener('click', async () =>
     const displayScore = s.quickMode ? (s.quickGrade || '-') : (r.score !== null ? r.score.toFixed(1) : '-');
     
     return `<tr>
-      <td style="padding:12px 10px; border-bottom:1px solid #ddd; font-size:14px; color:#111;">${s.name || 'ไม่ระบุชื่อ'}</td>
+      <td style="padding:12px 10px; border-bottom:1px solid #ddd; font-size:14px; color:#111;">${escapeHTML(s.name || 'ไม่ระบุชื่อ')}</td>
       <td style="padding:12px 10px; border-bottom:1px solid #ddd; text-align:center; font-size:14px; color:#111;">${s.credits || 0}</td>
       <td style="padding:12px 10px; border-bottom:1px solid #ddd; text-align:center; font-size:14px; color:#111;">${displayScore}</td>
       <td style="padding:12px 10px; border-bottom:1px solid #ddd; text-align:center; font-weight:bold; font-size:14px; color:#0071e3;">${g.letter}</td>
@@ -4361,10 +4589,10 @@ document.getElementById('btn-export-pdf')?.addEventListener('click', async () =>
       <!-- Header with Profile -->
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:30px; padding-bottom:20px; border-bottom:2px solid #e0e0e0;">
         <div style="display:flex; align-items:center; gap:16px;">
-          <img src="${profilePic}" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:3px solid #0071e3;" crossorigin="anonymous">
+          <img src="${escapeHTML(profilePic)}" alt="" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:3px solid #146b56;" crossorigin="anonymous">
           <div>
-            <div style="font-size:18px; font-weight:800; color:#111; margin-bottom:4px;">${profileName}</div>
-            <div style="font-size:12px; color:#666; font-family:'Kanit',sans-serif;">${profileEmail}</div>
+            <div style="font-size:18px; font-weight:800; color:#111; margin-bottom:4px;">${escapeHTML(profileName)}</div>
+            <div style="font-size:12px; color:#666; font-family:'Kanit',sans-serif;">${escapeHTML(profileEmail)}</div>
           </div>
         </div>
         <div style="text-align:right;">
@@ -4376,7 +4604,7 @@ document.getElementById('btn-export-pdf')?.addEventListener('click', async () =>
       <!-- Title -->
       <div style="text-align:center; margin-bottom:35px;">
         <h1 style="margin:0 0 8px 0; font-size:32px; font-weight:800; color:#111;">สรุปผลการเรียน</h1>
-        <h2 style="margin:0; font-size:22px; font-weight:600; color:#555;">${t.name || 'ไม่ระบุเทอม'}</h2>
+        <h2 style="margin:0; font-size:22px; font-weight:600; color:#555;">${escapeHTML(t.name || 'ไม่ระบุเทอม')}</h2>
       </div>
       
       <!-- GPA Stats -->
@@ -4552,48 +4780,52 @@ document.getElementById('btn-copy-share')?.addEventListener('click', () => {
 const checkShareLink = () => {
   const hash = window.location.hash; if (!hash.startsWith('#s=')) return;
   try {
-    const data = JSON.parse(LZString.decompressFromEncodedURIComponent(hash.slice(3)));
-    const hideGrades = data.h || false;
-    
-    const rows = data.s.map(s => {
-      const gradeDisplay = hideGrades ? '<span style="color:#888; display:inline-flex; align-items:center; gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> ซ่อน</span>' : s.gr;
-      return `<tr><td style="padding:16px; border-bottom:1px solid var(--glass-border, rgba(0,0,0,0.06)); font-weight:600;">${s.n}</td><td style="padding:16px; border-bottom:1px solid var(--glass-border, rgba(0,0,0,0.06)); font-family:'Kanit',sans-serif; font-size:16px; text-align:center;">${s.c}</td><td style="padding:16px; border-bottom:1px solid var(--glass-border, rgba(0,0,0,0.06)); font-weight:800; font-size:18px; text-align:center;">${gradeDisplay}</td></tr>`;
-    }).join('');
-    
-    const gpaDisplay = hideGrades ? '<span style="color:#888; display:inline-flex; align-items:center; gap:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> ซ่อน</span>' : `<strong style="color:#0071e3; font-size:28px;">${data.g?.gpa?.toFixed(2)||'-'}</strong>`;
-    
-    document.body.innerHTML = `
-      <div style="font-family:'Kanit', sans-serif; padding:40px 20px; max-width:600px; margin:0 auto; color:#111; min-height:100vh; display:flex; align-items:center;">
-        <div style="background:rgba(255,255,255,0.9); backdrop-filter:blur(40px); border-radius:32px; padding:40px; box-shadow:0 32px 64px rgba(0,0,0,0.1); width:100%;">
-          <div style="width:72px;height:72px;margin-bottom:24px;background:rgba(88,86,214,0.1);border-radius:20px;display:flex;align-items:center;justify-content:center;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#5856d6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
-          <h2 style="font-size:32px; font-weight:800; margin-bottom:12px; letter-spacing:-1px;">${data.t}</h2>
-          <div style="font-family:'Kanit',sans-serif; font-size:18px; color:#555; margin-bottom:40px; font-weight:600;">GPA: ${gpaDisplay} · ${hideGrades ? data.s.length : (data.g?.credits||0)} ${hideGrades ? 'วิชา' : 'Credits'}</div>
-          <table style="width:100%; border-collapse:collapse;">
-            <thead><tr><th style="padding:12px; border-bottom:2px solid rgba(0,0,0,0.1); color:#888; text-align:left;">วิชา</th><th style="padding:12px; border-bottom:2px solid rgba(0,0,0,0.1); color:#888;">Cr</th><th style="padding:12px; border-bottom:2px solid rgba(0,0,0,0.1); color:#888;">เกรด</th></tr></thead>
-            <tbody>${rows}</tbody>
-          </table>
-          <button style="margin-top:48px; width:100%; padding:18px; border-radius:100px; background:#0071e3; color:#fff; border:none; font-family:'Kanit', sans-serif; font-weight:700; font-size:18px; cursor:pointer;" onclick="window.location.href=window.location.href.split('#')[0]">เข้าสู่ Unigrade Tracker</button>
-        </div>
-      </div>
-    `; document.body.style.background = 'linear-gradient(180deg, #ffffff 0%, #f0f4f8 100%)';
-  } catch(e) {}
+    if (hash.length > 100_000) throw new Error('payload too large');
+    const decompressed = LZString.decompressFromEncodedURIComponent(hash.slice(3));
+    if (!decompressed || decompressed.length > 100_000) throw new Error('invalid payload');
+    const raw = JSON.parse(decompressed);
+    if (!raw || !Array.isArray(raw.s) || raw.s.length > 500) throw new Error('invalid schema');
+    const data = {
+      t: safeText(raw.t || 'ผลการเรียนที่แชร์', 80),
+      h: raw.h === true,
+      g: raw.g && Number(raw.g.gpa) >= 0 && Number(raw.g.gpa) <= 4 ? { gpa: Number(raw.g.gpa), credits: safeNumber(raw.g.credits, 0, 1000) } : null,
+      s: raw.s.map(subject => ({ n: safeText(subject?.n || 'ไม่ระบุชื่อ', 120), c: safeNumber(subject?.c, 0, 20), gr: [...GRADES, 'W', '-'].includes(subject?.gr) ? subject.gr : '-' }))
+    };
+    const page = document.createElement('main');
+    page.style.cssText = "font-family:'Kanit',sans-serif;padding:40px 20px;max-width:680px;margin:0 auto;color:#17231f;min-height:100vh;display:flex;align-items:center";
+    const card = document.createElement('section');
+    card.style.cssText = 'background:#fff;border:1px solid #dfe7e2;border-radius:24px;padding:40px;box-shadow:0 24px 60px rgba(20,60,45,.12);width:100%';
+    const brand = document.createElement('p'); brand.textContent = 'UNIGRADE · ลิงก์สาธารณะ'; brand.style.cssText = 'color:#146b56;font-size:13px;font-weight:700;letter-spacing:.08em;margin:0 0 14px';
+    const title = document.createElement('h1'); title.textContent = data.t; title.style.cssText = 'font-size:32px;margin:0 0 10px';
+    const summary = document.createElement('p'); summary.textContent = data.h ? `ซ่อนเกรด · ${data.s.length} วิชา` : `GPA ${data.g ? data.g.gpa.toFixed(2) : 'ยังไม่มีข้อมูล'} · ${data.g?.credits || 0} หน่วยกิต`; summary.style.cssText = 'font-size:17px;color:#52635b;margin:0 0 28px';
+    const notice = document.createElement('p'); notice.textContent = 'ทุกคนที่มีลิงก์นี้สามารถเปิดดูข้อมูลด้านล่างได้'; notice.style.cssText = 'background:#fff7d6;color:#644f00;padding:12px 14px;border-radius:10px;font-size:13px';
+    const table = document.createElement('table'); table.style.cssText = 'width:100%;border-collapse:collapse;margin-top:18px';
+    const head = table.createTHead().insertRow(); ['วิชา','หน่วยกิต','เกรด'].forEach(label => { const th = document.createElement('th'); th.textContent = label; th.style.cssText = 'padding:12px;border-bottom:2px solid #dfe7e2;text-align:left;color:#52635b'; head.appendChild(th); });
+    const body = table.createTBody();
+    data.s.forEach(subject => { const row = body.insertRow(); [subject.n, String(subject.c), data.h ? 'ซ่อน' : (subject.gr === '-' ? 'ยังไม่มีผล' : subject.gr)].forEach(value => { const cell = row.insertCell(); cell.textContent = value; cell.style.cssText = 'padding:14px 12px;border-bottom:1px solid #e8eeea'; }); });
+    const back = document.createElement('button'); back.type = 'button'; back.textContent = 'เข้าสู่ UniGrade'; back.style.cssText = 'margin-top:32px;width:100%;min-height:48px;border:0;border-radius:12px;background:#146b56;color:#fff;font:600 16px Kanit;cursor:pointer'; back.addEventListener('click', () => { window.location.href = window.location.href.split('#')[0]; });
+    card.append(brand, title, summary, notice, table, back); page.appendChild(card); document.body.replaceChildren(page); document.body.style.background = '#f3f1ea';
+  } catch(e) { history.replaceState(null, '', window.location.href.split('#')[0]); toast('ลิงก์แชร์ไม่ถูกต้องหรือข้อมูลมีขนาดเกินกำหนด', true); }
 }; checkShareLink();
 
 // ─── CSV ───
 document.getElementById('csv-upload')?.addEventListener('change', e => {
   const f = e.target.files[0]; if (!f) return; const r = new FileReader();
   r.onload = ev => {
-    const lines = ev.target.result.split('\n').filter(l => l.trim()), validGrades = new Set([...GRADES, 'W']);
+    const lines = String(ev.target.result).slice(0, 1_000_000).split('\n').filter(l => l.trim()).slice(0, 501), validGrades = new Set([...GRADES, 'W']);
     let imp = 0, errs = []; const t = getTerm();
     lines.forEach((l, idx) => {
       if (idx === 0 && l.toLowerCase().includes('วิชา')) return;
       const p = l.split(',').map(x => x.trim().replace(/^"|"$/g, '')); if (p.length < 2) return;
-      const n = p[0], c = parseFloat(p[1]) || 3, g = (p[2] || '').toUpperCase().replace(/\s/g, '');
+      const n = safeText(p[0], 120), c = safeNumber(parseFloat(p[1]) || 3, 0, 20), g = (p[2] || '').toUpperCase().replace(/\s/g, '');
       if (!n) return; if (g && !validGrades.has(g)) { errs.push(`แถว ${idx+1}: เกรด "${g}" ไม่รองรับ`); return; }
-      t.subjects.push({ id: generateId(), name: n, credits: c, categories: [{ id: generateId(), type: 'assignment', name: 'คะแนนเก็บ', items: [] }, { id: generateId(), type: 'midterm', name: 'สอบกลางภาค', items: [] }, { id: generateId(), type: 'final', name: 'สอบปลายภาค', items: [] }], note: '', quickMode: !!g, quickGrade: g || null }); imp++;
+      t.subjects.push({ id: generateId(), name: n, credits: c, status: g ? (g === 'W' ? 'withdrawn' : 'graded') : 'ungraded', categories: [{ id: generateId(), type: 'assignment', name: 'คะแนนเก็บ', items: [] }, { id: generateId(), type: 'midterm', name: 'สอบกลางภาค', items: [] }, { id: generateId(), type: 'final', name: 'สอบปลายภาค', items: [] }], note: '', quickMode: !!g, quickGrade: g || null }); imp++;
     });
     saveData(); renderApp();
-    document.getElementById('csv-preview').innerHTML = `<div style="color:var(--green)">นำเข้าสำเร็จ ${imp} วิชา</div>${errs.map(e=>`<div style="color:var(--red)">${e}</div>`).join('')}`;
+    const preview = document.getElementById('csv-preview');
+    preview.replaceChildren();
+    const success = document.createElement('div'); success.style.color = 'var(--green)'; success.textContent = `นำเข้าสำเร็จ ${imp} วิชา`; preview.appendChild(success);
+    errs.forEach(message => { const error = document.createElement('div'); error.style.color = 'var(--red)'; error.textContent = message; preview.appendChild(error); });
     toast(`นำเข้า ${imp} วิชาเรียบร้อย`); setTimeout(() => closeModal('csv-modal'), 2000); e.target.value = '';
   }; r.readAsText(f, 'UTF-8');
 });

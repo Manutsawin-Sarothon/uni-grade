@@ -339,3 +339,92 @@ input, textarea { caret-color: var(--accent); }
   .term-menu-items { padding: 8px 12px 14px; }
   .term-item { min-height: 68px; }
 }
+/* Accessibility and product-system hardening */
+[hidden] { display: none !important; }
+
+.settings-help {
+  margin: 6px 18px 18px;
+  color: var(--ink2);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.subj-title-input {
+  border: 1px solid var(--glass-border) !important;
+  background: var(--surface-subtle) !important;
+  border-radius: var(--r-md) !important;
+  padding: 10px 12px !important;
+}
+
+.subj-title-input:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.subject-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface-dim);
+  color: var(--ink2);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+button.cal-day {
+  width: 100%;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  appearance: none;
+}
+
+button.cal-day:focus-visible { outline: 3px solid var(--accent-light); outline-offset: 2px; }
+
+.modal-overlay[aria-hidden="true"] { pointer-events: none; }
+
+button, [role="button"], input, select, textarea { scroll-margin: 12px; }
+
+@media (min-width: 900px) {
+  #settings-modal { padding: 40px; align-items: flex-start; overflow-y: auto; }
+  #settings-modal::before { display: none; }
+  #settings-modal .settings-panel {
+    position: relative;
+    inset: auto;
+    transform: none;
+    width: min(860px, 100%);
+    max-width: 860px;
+    min-height: auto;
+    max-height: none;
+    margin: 0 auto;
+    border-radius: var(--r-xl);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow-hover);
+  }
+  #settings-modal.open .settings-panel { transform: none; }
+  .settings-body {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 24px;
+    padding: 8px 28px 32px;
+  }
+  .settings-profile, #local-sync-section { grid-column: 1 / -1; }
+}
+
+@media (max-width: 650px) {
+  #settings-modal { padding: 0; background: var(--bg); }
+  #settings-modal .settings-panel { border-radius: 0; width: 100%; max-width: none; }
+  .settings-header { padding-top: max(14px, env(safe-area-inset-top)); }
+  .settings-body { padding-bottom: max(28px, env(safe-area-inset-bottom)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
