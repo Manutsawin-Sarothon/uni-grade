@@ -1217,44 +1217,6 @@ input:checked + .slider:before { transform: translateX(18px); }
   .modal-input { font-size: 16px; padding: 16px; min-height: 52px; }
 }
 
-/* ─── Settings Panel (full-screen slide-in) ─── */
-#settings-modal {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  padding: 0;
-  align-items: stretch;
-  justify-content: flex-end;
-}
-#settings-modal .settings-panel {
-  width: 100%;
-  max-width: 480px;
-  height: 100%;
-  background: var(--bg-bottom);
-  display: flex;
-  flex-direction: column;
-  transform: translateX(100%);
-  transition: transform 0.35s var(--ease-out-expo);
-  position: relative;
-  overflow: hidden;
-}
-#settings-modal.open .settings-panel {
-  transform: translateX(0);
-}
-/* backdrop dim */
-#settings-modal::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  pointer-events: none;
-}
-#settings-modal.open::before { opacity: 1; }
-
 .settings-header {
   display: flex;
   align-items: center;
@@ -1353,10 +1315,6 @@ input:checked + .slider:before { transform: translateX(18px); }
   height: 1px;
   background: var(--glass-border);
   margin: 4px 20px;
-}
-
-@media (max-width: 480px) {
-  #settings-modal .settings-panel { max-width: 100%; }
 }
 
 .cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
@@ -1732,18 +1690,9 @@ html, body, body *, body *::before, body *::after {
 
 <!-- ════ MODALS ════ -->
 
-<!-- Control Center Modal (Settings) -->
-<div id="settings-modal" class="modal-overlay" onclick="handleSettingsBackdrop(event)" hidden aria-hidden="true">
-  <div class="settings-panel" role="dialog" aria-modal="true" aria-label="ตั้งค่า">
-
-    <!-- Header -->
-    <div class="settings-header">
-      <button class="btn-icon" onclick="closeModal('settings-modal')" aria-label="ปิด" style="box-shadow:none; background:var(--surface-dim); border:none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-      <div class="settings-header-title">ตั้งค่า</div>
-    </div>
-
+<!-- Settings page (moved into the main content area after the document loads) -->
+<div id="view-settings" class="settings-page hide-on-print" style="display:none;" aria-hidden="true">
+  <div class="settings-panel" role="region" aria-label="ตั้งค่า">
     <!-- Body -->
     <div class="settings-body no-scroll-bar">
 
@@ -1839,7 +1788,7 @@ html, body, body *, body *::before, body *::after {
         <span class="settings-row-label">แชร์ผลการเรียน</span>
         <svg class="settings-row-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
-      <button class="settings-row" onclick="openModal('csv-modal'); closeModal('settings-modal');">
+      <button class="settings-row" onclick="openModal('csv-modal');">
         <div class="settings-row-icon icon-purple">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
         </div>
@@ -2264,7 +2213,7 @@ html, body, body *, body *::before, body *::after {
         <span class="nav-label">วิเคราะห์</span>
         <svg class="dock-icon" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       </div>
-      <div class="dock-item" onclick="openModal('settings-modal')" data-tooltip="เมนูจัดการ" role="button" aria-label="เมนูจัดการ" tabindex="0">
+      <div class="dock-item" data-view="settings" data-tooltip="ตั้งค่า" role="button" aria-label="ตั้งค่า" tabindex="0">
         <span class="nav-label">ตั้งค่า</span>
         <svg class="dock-icon" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </div>
@@ -2293,6 +2242,9 @@ const UI_ICONS = {
   close: '<svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>',
   moreVertical: '<svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg>'
 };
+
+// Settings is authored near the modal markup but behaves as a regular app page.
+document.getElementById('main-wrap')?.appendChild(document.getElementById('view-settings'));
 
 // Helper for dynamic boundaries
 const getBoundaries = (s) => (s && s.customBoundaries) ? s.customBoundaries : DEFAULT_BOUNDARY;
@@ -2487,11 +2439,6 @@ document.addEventListener('keydown', event => {
   if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
   else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
 });
-
-// Close settings panel when clicking the backdrop (outside the panel)
-window.handleSettingsBackdrop = (e) => {
-  if (e.target === document.getElementById('settings-modal')) closeModal('settings-modal');
-};
 
 // ─── Delight helpers ───
 const GRADE_ORDER = ['F', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A'];
@@ -3011,7 +2958,6 @@ document.getElementById('btn-login-guest')?.addEventListener('click', () => {
 document.getElementById('btn-sync-google')?.addEventListener('click', async () => {
   if (!auth) { toast('Firebase ไม่พร้อมใช้งาน', true); return; }
   try {
-    closeModal('settings-modal');
     toast('กำลังเชื่อมต่อ Google...');
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
@@ -3039,7 +2985,6 @@ const doLogout = async () => {
   // ฟิกซ์บัค PIN: สลับบัญชีต้องล้าง PIN เก่าออก เพื่อให้เข้าสู่ระบบและไม่ถูกล็อกด้วย PIN ของคนก่อนหน้า
   localStorage.removeItem('app_pin'); 
   
-  closeModal('settings-modal');
   hasAppInitialized = false; 
   isAppStarted = false;
   if (unsubSnapshot) { unsubSnapshot(); unsubSnapshot = null; }
@@ -3131,7 +3076,6 @@ const updatePinUI = () => {
 };
 
 document.getElementById('btn-pin-toggle')?.addEventListener('click', () => {
-    closeModal('settings-modal');
     const hasPin = !!(localStorage.getItem(PIN_KEY) || localStorage.getItem('app_pin'));
     if(hasPin) {
         showPrompt('ยกเลิกตัวล็อกหน้าจอ', 'กรุณากรอก PIN เดิมเพื่อยกเลิก', 'unlock', '', async (val) => {
@@ -3333,7 +3277,8 @@ const switchView = (view, subjId = null) => {
     subjects: ['รายวิชา', 'รายวิชาของฉัน', 'จัดการคะแนนและหน่วยกิตของทุกวิชา'],
     subject: ['รายวิชา', 'รายละเอียดรายวิชา', 'ติดตามคะแนนและวางแผนเกรดวิชานี้'],
     targets: ['เป้าหมาย', 'วางแผนเป้าหมาย', 'รู้ว่าต้องทำอีกเท่าไรเพื่อไปถึงเกรดที่ต้องการ'],
-    analytics: ['วิเคราะห์', 'เจาะลึกผลการเรียน', 'มองเห็นแนวโน้มและจุดที่ควรโฟกัส']
+    analytics: ['วิเคราะห์', 'เจาะลึกผลการเรียน', 'มองเห็นแนวโน้มและจุดที่ควรโฟกัส'],
+    settings: ['ตั้งค่า', 'ตั้งค่าและจัดการข้อมูล', 'ปรับแต่งแอป บัญชี และการสำรองข้อมูล']
   }[view];
   if (pageCopy) {
     document.getElementById('page-section').textContent = pageCopy[0];
@@ -3341,14 +3286,16 @@ const switchView = (view, subjId = null) => {
     document.getElementById('page-description').textContent = pageCopy[2];
   }
   
-  ['view-dashboard', 'view-subjects', 'view-subject', 'view-targets', 'view-analytics'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.style.display = 'none';
+  ['view-dashboard', 'view-subjects', 'view-subject', 'view-targets', 'view-analytics', 'view-settings'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.style.display = 'none'; el.setAttribute('aria-hidden', 'true'); }
   });
   
   const targetId = view === 'subject' ? 'view-subject' : `view-${view}`;
   const targetEl = document.getElementById(targetId);
   if (targetEl) {
     targetEl.style.display = 'grid';
+    targetEl.setAttribute('aria-hidden', 'false');
     // Replay .ani stagger + view crossfade — batch reflow to single read
     targetEl.classList.remove('view-enter');
     const aniEls = [...targetEl.querySelectorAll('.ani')];
@@ -3434,6 +3381,20 @@ const loadHideGradesSetting = () => {
   updateHideGradesUI();
 };
 
+const playTermChangeAnimation = () => {
+  const main = document.getElementById('main-wrap');
+  const trigger = document.getElementById('term-trigger');
+  main?.classList.remove('term-changing');
+  trigger?.classList.remove('term-changing');
+  if (main) void main.offsetWidth;
+  main?.classList.add('term-changing');
+  trigger?.classList.add('term-changing');
+  window.setTimeout(() => {
+    main?.classList.remove('term-changing');
+    trigger?.classList.remove('term-changing');
+  }, 520);
+};
+
 const renderApp = () => {
   if(!hasAppInitialized) return; 
   
@@ -3475,7 +3436,9 @@ const renderApp = () => {
       item.addEventListener('click', () => {
         if (term.id === currentTermId) { toggleTermDropdown(false); return; }
         currentTermId = term.id; currentSubjId = null; saveData();
-        toggleTermDropdown(false); switchView('dashboard');
+        toggleTermDropdown(false);
+        switchView('dashboard');
+        playTermChangeAnimation();
       });
       items.append(item);
     });
@@ -4396,9 +4359,9 @@ const renderAnalytics = () => {
   document.getElementById('analytics-term-table').innerHTML = `<div class="table-container"><table class="bento-table"><thead><tr><th>เทอม</th><th>GPA</th><th>หน่วยกิต</th></tr></thead><tbody>${appData.terms.map(t => { const r = calcTermGPA(t); return `<tr><td>${escapeHTML(t.name)}</td><td class="grade-letter" style="font-family:var(--mono); font-weight:800; color:${r.gpa!==null&&r.gpa>=3?'var(--green)':'var(--ink)'}">${r.gpa!==null?r.gpa.toFixed(2):'ยังไม่มีข้อมูล'}</td><td style="font-family:var(--mono);">${r.credits}</td></tr>`; }).join('')}</tbody></table></div>`;};
 
 // ─── CONTROL CENTER ACTIONS ───
-document.getElementById('btn-add-term')?.addEventListener('click', () => { closeModal('settings-modal'); showPrompt('เพิ่มเทอมใหม่', 'กรุณาตั้งชื่อเทอมใหม่', 'add', '', (val) => { if (val && val.trim()) { const id = generateId(); appData.terms.push({ id, name: val.trim(), subjects: [] }); currentTermId = id; saveData(); renderApp(); toast('เพิ่มเทอมใหม่เรียบร้อย'); } }); });
-document.getElementById('btn-rename-term')?.addEventListener('click', () => { closeModal('settings-modal'); const t = getTerm(); showPrompt('แก้ไขชื่อเทอม', 'เปลี่ยนชื่อสำหรับเทอมปัจจุบัน', 'edit', t.name, (val) => { if (val && val.trim()) { t.name = val.trim(); saveData(); renderApp(); toast('เปลี่ยนชื่อเรียบร้อย'); } }); });
-document.getElementById('btn-delete-term')?.addEventListener('click', () => { closeModal('settings-modal'); if (appData.terms.length <= 1) { toast('ไม่สามารถลบเทอมสุดท้ายได้', true); return; } showConfirm('ลบเทอม', `ลบเทอม "${getTerm().name}" และรายวิชาทั้งหมดข้างในใช่หรือไม่?`, 'delete', () => { appData.terms = appData.terms.filter(t => t.id !== currentTermId); currentTermId = appData.terms[0].id; currentSubjId = null; saveData(); switchView('dashboard'); toast('ลบเทอมเรียบร้อย'); }); });
+document.getElementById('btn-add-term')?.addEventListener('click', () => { showPrompt('เพิ่มเทอมใหม่', 'กรุณาตั้งชื่อเทอมใหม่', 'add', '', (val) => { if (val && val.trim()) { const id = generateId(); appData.terms.push({ id, name: val.trim(), subjects: [] }); currentTermId = id; saveData(); renderApp(); toast('เพิ่มเทอมใหม่เรียบร้อย'); } }); });
+document.getElementById('btn-rename-term')?.addEventListener('click', () => { const t = getTerm(); showPrompt('แก้ไขชื่อเทอม', 'เปลี่ยนชื่อสำหรับเทอมปัจจุบัน', 'edit', t.name, (val) => { if (val && val.trim()) { t.name = val.trim(); saveData(); renderApp(); toast('เปลี่ยนชื่อเรียบร้อย'); } }); });
+document.getElementById('btn-delete-term')?.addEventListener('click', () => { if (appData.terms.length <= 1) { toast('ไม่สามารถลบเทอมสุดท้ายได้', true); return; } showConfirm('ลบเทอม', `ลบเทอม "${getTerm().name}" และรายวิชาทั้งหมดข้างในใช่หรือไม่?`, 'delete', () => { appData.terms = appData.terms.filter(t => t.id !== currentTermId); currentTermId = appData.terms[0].id; currentSubjId = null; saveData(); switchView('dashboard'); toast('ลบเทอมเรียบร้อย'); }); });
 
 // ─── LOCAL SAVE / RESTORE ───
 document.getElementById('btn-backup')?.addEventListener('click', () => {
@@ -4414,7 +4377,7 @@ document.getElementById('backup-upload')?.addEventListener('change', e => {
   r.onload = ev => {
     try {
       const parsed = JSON.parse(ev.target.result);
-      if (parsed && parsed.terms) { appData = normalizeAppData(parsed); currentTermId = appData.currentTermId; saveData(); renderApp(); toast('กู้คืนข้อมูลเรียบร้อย'); closeModal('settings-modal'); }
+      if (parsed && parsed.terms) { appData = normalizeAppData(parsed); currentTermId = appData.currentTermId; saveData(); renderApp(); toast('กู้คืนข้อมูลเรียบร้อย'); }
       else throw new Error('Invalid format');
     } catch(err) { toast('ไฟล์ข้อมูลไม่ถูกต้อง', true); }
   };
@@ -4423,8 +4386,6 @@ document.getElementById('backup-upload')?.addEventListener('change', e => {
 
 // ─── PDF EXPORT (html2pdf) ───
 document.getElementById('btn-export-pdf')?.addEventListener('click', async () => {
-  closeModal('settings-modal'); 
-  
   const t = getTerm();
   const subjects = getSubjects();
   
@@ -4628,7 +4589,6 @@ document.getElementById('btn-export-pdf')?.addEventListener('click', async () =>
 
 // ─── SHARE LINK (LZString Compression) ───
 document.getElementById('btn-share')?.addEventListener('click', () => {
-  closeModal('settings-modal');
   generateShareLink();
   openModal('share-modal');
 });
