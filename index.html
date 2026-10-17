@@ -2349,15 +2349,22 @@ const emptyStateHTML = (iconKey, title, desc, ctaHTML = '') => `
 
 // Reusable Chart.js tooltip config
 const chartTooltip = (isDark) => ({
-  backgroundColor: isDark ? 'var(--overlay-dark, rgba(30,30,32,0.9))' : 'var(--overlay-light, rgba(255,255,255,0.9))',
-  titleColor: isDark ? '#fff' : '#000',
-  bodyColor:  isDark ? '#fff' : '#000',
-  borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)',
-  borderWidth: 1, padding: 12, cornerRadius: 12
+  backgroundColor: isDark ? 'rgba(24, 42, 43, .98)' : 'rgba(252, 252, 248, .98)',
+  titleColor: isDark ? '#eff7f2' : '#102f2f',
+  bodyColor: isDark ? '#bad1ca' : '#385a56',
+  borderColor: isDark ? '#52706c' : '#b8cbc1',
+  borderWidth: 1,
+  padding: 12,
+  cornerRadius: 9,
+  caretPadding: 8,
+  boxPadding: 5,
+  titleFont: { family: 'Kanit', weight: '700' },
+  bodyFont: { family: 'Kanit', weight: '500' }
 });
 
 // Reusable chart text color
 const chartTextColor = (isDark) => isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)';
+const chartCssColor = (name, fallback) => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
 const renderChartEmptyState = (canvas, message = null) => {
   if (!canvas) return;
   let empty = canvas.parentElement?.querySelector(':scope > .chart-empty-state');
@@ -3538,7 +3545,7 @@ const renderDashboard = () => {
     }
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const textColor = chartTextColor(isDark);
-    chartInstances.dashTrend = new Chart(ctx, { type: 'line', data: { labels, datasets: [{ label: 'GPA', data, borderColor: isDark ? '#83d9ab' : '#116b67', backgroundColor: isDark ? 'rgba(131,217,171,.12)' : 'rgba(17,107,103,.08)', borderWidth: 2, tension: 0.35, fill: true, pointBackgroundColor: isDark ? '#83d9ab' : '#116b67', pointBorderColor: '#fff', pointRadius: 4, pointBorderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 4, border: { display: false }, grid: { color: 'var(--chart-grid)' }, ticks: { color: textColor, font: { family: 'Kanit' } } }, x: { border: { display: false }, grid: { display: false }, ticks: { color: textColor, font: { family: 'Kanit', weight: 600 } } } }, plugins: { legend: { display: false }, tooltip: chartTooltip(isDark) } } });
+    chartInstances.dashTrend = new Chart(ctx, { type: 'line', data: { labels, datasets: [{ label: 'GPA', data, borderColor: isDark ? '#83d9ab' : '#116b67', backgroundColor: isDark ? 'rgba(131,217,171,.12)' : 'rgba(17,107,103,.08)', borderWidth: 2, tension: 0.35, fill: true, pointBackgroundColor: isDark ? '#83d9ab' : '#116b67', pointHoverBackgroundColor: isDark ? '#a9ebc8' : '#0d514f', pointBorderColor: '#fff', pointRadius: 4, pointHoverRadius: 6, pointBorderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 4, border: { display: false }, grid: { color: chartCssColor('--chart-grid', isDark ? 'rgba(255,255,255,.08)' : 'rgba(16,47,47,.1)') }, ticks: { color: textColor, font: { family: 'Kanit' } } }, x: { border: { display: false }, grid: { display: false }, ticks: { color: textColor, font: { family: 'Kanit', weight: 600 } } } }, plugins: { legend: { display: false }, tooltip: chartTooltip(isDark) } } });
   }
 };
 
@@ -4190,6 +4197,8 @@ const renderAnalytics = () => {
           borderColor: isDark ? '#5e5ce6' : '#5856d6',
           borderWidth: 2,
           pointBackgroundColor: isDark ? '#5e5ce6' : '#5856d6',
+          pointHoverBackgroundColor: isDark ? '#c2bbf1' : '#37346f',
+          pointHoverBorderColor: isDark ? '#eff7f2' : '#fcfcf8',
           pointBorderColor: '#fff',
           pointRadius: 4,
           pointHoverRadius: 6
@@ -4207,7 +4216,7 @@ const renderAnalytics = () => {
               color: textColor,
               backdropColor: 'transparent'
             },
-            grid: { color: 'var(--chart-grid)' },
+            grid: { color: chartCssColor('--chart-grid', isDark ? 'rgba(255,255,255,.08)' : 'rgba(16,47,47,.1)') },
             pointLabels: { 
               color: textColor, 
               font: { size: 11, weight: '600' }
@@ -4267,6 +4276,9 @@ const renderAnalytics = () => {
           label: 'จำนวนวิชา',
           data: gradeData,
           backgroundColor: gradeColors,
+          hoverBackgroundColor: gradeColors,
+          hoverBorderColor: isDark ? '#eff7f2' : '#102f2f',
+          hoverBorderWidth: 2,
           borderRadius: 12,
           borderWidth: 0,
           barThickness: 'flex',
@@ -4280,7 +4292,7 @@ const renderAnalytics = () => {
           y: {
             beginAtZero: true,
             border: { display: false },
-            grid: { color: 'var(--chart-grid)' },
+            grid: { color: chartCssColor('--chart-grid', isDark ? 'rgba(255,255,255,.08)' : 'rgba(16,47,47,.1)') },
             ticks: { 
               color: textColor,
               stepSize: 1,
@@ -4326,7 +4338,9 @@ const renderAnalytics = () => {
     if (!dataGpa.some(value => value !== null)) renderChartEmptyState(ctx, 'ต้องมีผลประเมินอย่างน้อย 1 เทอมก่อนจึงจะเปรียบเทียบได้');
     else {
       renderChartEmptyState(ctx);
-      chartInstances.compare = new Chart(ctx, { type: 'bar', data: { labels, datasets: [{ label: 'GPA', data: dataGpa, backgroundColor: dataGpa.map(v=>v>=3.5?'#34c759':v>=3.0?'#0071e3':v>=2.0?'#ff9f0a':'#ff3b30'), borderRadius: 8 }, { label: 'หน่วยกิต', data: dataCr, backgroundColor: 'var(--purple-light)', borderColor: '#af52de', borderWidth: 2, borderRadius: 8, yAxisID: 'y2' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 4, border: {display: false}, grid: { color: 'var(--chart-grid)' }, ticks: { color: textColor } }, y2: { position: 'right', border: {display: false}, grid: { display: false }, ticks: { color: textColor } }, x: { border: {display: false}, grid: { display: false }, ticks: { color: textColor, font: {family: 'Kanit', weight: 600} } } }, plugins: { tooltip: chartTooltip(isDark) } } });
+      const gpaColors = dataGpa.map(v=>v>=3.5?'#34c759':v>=3.0?'#0071e3':v>=2.0?'#ff9f0a':'#ff3b30');
+      const creditColor = isDark ? 'rgba(194,187,241,.32)' : 'rgba(81,78,136,.18)';
+      chartInstances.compare = new Chart(ctx, { type: 'bar', data: { labels, datasets: [{ label: 'GPA', data: dataGpa, backgroundColor: gpaColors, hoverBackgroundColor: gpaColors, hoverBorderColor: isDark ? '#eff7f2' : '#102f2f', hoverBorderWidth: 2, borderRadius: 8 }, { label: 'หน่วยกิต', data: dataCr, backgroundColor: creditColor, hoverBackgroundColor: isDark ? 'rgba(194,187,241,.5)' : 'rgba(81,78,136,.3)', borderColor: isDark ? '#c2bbf1' : '#514e88', borderWidth: 2, borderRadius: 8, yAxisID: 'y2' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 4, border: {display: false}, grid: { color: chartCssColor('--chart-grid', isDark ? 'rgba(255,255,255,.08)' : 'rgba(16,47,47,.1)') }, ticks: { color: textColor } }, y2: { position: 'right', border: {display: false}, grid: { display: false }, ticks: { color: textColor } }, x: { border: {display: false}, grid: { display: false }, ticks: { color: textColor, font: {family: 'Kanit', weight: 600} } } }, plugins: { tooltip: chartTooltip(isDark) } } });
     }
   }
   
