@@ -440,16 +440,29 @@ button, [role="button"], input, select, textarea { scroll-margin: 12px; }
 
 /* Five-item navigation with Overview as the primary middle action. */
 .apple-dock .dock-item:last-child { margin-top: 0; }
-.dock-item.dock-primary,
-.dock-item.dock-primary.active {
-  min-height: 58px;
-  color: #fff;
-  background: #146b56;
-  border-color: #146b56;
-  border-radius: 14px;
-  box-shadow: 0 10px 24px rgba(20, 107, 86, .22);
+.dock-item.active:not(.dock-primary) {
+  color: var(--accent);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  font-weight: 800;
 }
-.dock-item.dock-primary:hover { background: #0f5947; }
+.dock-item.dock-primary {
+  min-height: 58px;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+.dock-item.dock-primary.active {
+  color: var(--accent);
+  background: transparent;
+  box-shadow: none;
+  font-weight: 800;
+}
+.dock-item:hover,
+.dock-item.dock-primary:hover,
+.dock-item.dock-primary.active:hover { color: var(--accent); background: transparent; }
+.apple-dock .dock-item.active:hover { color: var(--accent); background: transparent; }
 .dock-item.dock-primary .dock-icon { width: 24px; height: 24px; }
 
 @media (max-width: 900px) {
@@ -462,7 +475,6 @@ button, [role="button"], input, select, textarea { scroll-margin: 12px; }
     min-height: 64px;
     margin-top: -22px;
     border-radius: 20px;
-    box-shadow: 0 12px 28px rgba(20, 107, 86, .3);
   }
   .dock-item.dock-primary .dock-icon { width: 25px; height: 25px; }
   .dock-item.dock-primary .nav-label { font-weight: 800; }
