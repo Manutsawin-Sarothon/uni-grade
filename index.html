@@ -3416,6 +3416,7 @@ const renderApp = () => {
       const active = term.id === currentTermId;
       item.type = 'button';
       item.className = 'term-item' + (active ? ' active' : '');
+      item.style.setProperty('--term-order', index);
       item.dataset.id = term.id;
       if (active) item.setAttribute('aria-current', 'true');
       const number = document.createElement('span');
