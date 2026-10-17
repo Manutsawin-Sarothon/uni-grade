@@ -440,8 +440,11 @@ button, [role="button"], input, select, textarea { scroll-margin: 12px; }
 
 /* Five-item navigation with Overview as the primary middle action. */
 .apple-dock .dock-item:last-child { margin-top: 0; }
+.apple-dock .dock-item {
+  color: #aebbb7;
+}
 .dock-item.active:not(.dock-primary) {
-  color: var(--accent);
+  color: #ffd166;
   background: transparent;
   border-color: transparent;
   box-shadow: none;
@@ -449,20 +452,26 @@ button, [role="button"], input, select, textarea { scroll-margin: 12px; }
 }
 .dock-item.dock-primary {
   min-height: 58px;
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
+  color: #dbe8e3;
+  background: #146b56;
+  border: 2px solid #6ca890;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(7, 38, 34, .24);
 }
 .dock-item.dock-primary.active {
-  color: var(--accent);
-  background: transparent;
-  box-shadow: none;
+  color: #ffd166;
+  background: #146b56;
+  border-color: #ffd166;
+  box-shadow: 0 10px 24px rgba(7, 38, 34, .3);
   font-weight: 800;
 }
 .dock-item:hover,
-.dock-item.dock-primary:hover,
-.dock-item.dock-primary.active:hover { color: var(--accent); background: transparent; }
-.apple-dock .dock-item.active:hover { color: var(--accent); background: transparent; }
+.dock-item.dock-primary:hover { color: #fff; }
+.dock-item.dock-primary:hover { background: #146b56; }
+.dock-item.dock-primary.active:hover,
+.apple-dock .dock-item.active:hover { color: #ffd166; background: transparent; }
+.dock-item.dock-primary.active:hover { background: #146b56; }
+.dock-item.active .dock-icon { filter: drop-shadow(0 0 5px rgba(255, 209, 102, .32)); }
 .dock-item.dock-primary .dock-icon { width: 24px; height: 24px; }
 
 @media (max-width: 900px) {
