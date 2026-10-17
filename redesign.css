@@ -434,12 +434,24 @@ button, [role="button"], input, select, textarea { scroll-margin: 12px; }
 #view-settings .settings-profile { margin: 16px 0; }
 #view-settings .settings-section-label { padding-inline: 4px; }
 #view-settings .settings-row { border-radius: 10px; }
+.danger-section-label { color: var(--red); margin-top: 28px; }
+.info-modal-box { width: min(680px, calc(100vw - 28px)); max-height: min(82vh, 760px); padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+.info-modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.info-modal-head p { margin: 4px 0 0; color: var(--ink2); font-size: 13px; }
+.info-modal-content { overflow: auto; padding-right: 6px; color: var(--ink2); font-size: 14px; line-height: 1.7; }
+.info-modal-content section + section { border-top: 1px solid var(--glass-border); margin-top: 18px; padding-top: 18px; }
+.info-modal-content h3 { margin: 0 0 8px; color: var(--ink); font-size: 16px; }
+.info-modal-content p { margin: 7px 0; }
+.info-modal-content ol { margin: 6px 0 0; padding-left: 22px; }
+.info-modal-content a { color: var(--accent); font-weight: 700; }
+.chart-caption { margin: 8px 0 0; color: var(--ink2); font-size: 12px; line-height: 1.55; }
 
 @media (max-width: 650px) {
   #view-settings .settings-panel { border: 0; border-radius: 0; background: transparent; box-shadow: none; }
   #view-settings .settings-body { padding: 0 0 max(28px, env(safe-area-inset-bottom)); }
   #view-settings .settings-profile { margin: 0 0 16px; }
   #view-settings .settings-section-label { padding-inline: 4px; }
+  .info-modal-box { width: 100%; max-height: 100%; min-height: 100%; border-radius: 0; padding: max(18px, env(safe-area-inset-top)) 18px max(18px, env(safe-area-inset-bottom)); }
 }
 
 @keyframes termPageChange {
